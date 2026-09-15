@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Experiencia Comunica — ¿Hablas o comunicas?</title>
-  <meta name="description" content="Experiencia Comunica: una experiencia intensiva para desbloquear tu comunicación desde la creatividad y el cuerpo. Evento gratuito en Murcia.">
+  <meta name="description" content="Experiencia Comunica: una experiencia intensiva para desbloquear tu comunicación desde la creatividad y la práctica. Evento gratuito el 14 de noviembre de 2026 en Murcia.">
   <meta property="og:title" content="Experiencia Comunica — ¿Hablas o comunicas?">
-  <meta property="og:description" content="No vienes a escuchar: vienes a experimentar. Evento gratuito de comunicación y creatividad en Murcia.">
+  <meta property="og:description" content="No vienes a escuchar: vienes a experimentar. Evento gratuito de comunicación y creatividad · 14 de noviembre de 2026 · Murcia.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Experiencia Comunica">
   <meta name="twitter:description" content="¿Hablas o comunicas? Una experiencia para aprender haciendo.">
+  <link rel="icon" type="image/svg+xml" href="assets/images/isotipo.svg">
+  <link rel="apple-touch-icon" href="assets/images/isotipo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800;900&family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
@@ -29,12 +31,18 @@
   <nav class="nav" id="nav">
     <a href="#hero" class="nav__logo">
       <span class="nav__logo-icon">
-        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+        <!-- Isotipo oficial. Si assets/images/isotipo.svg no existe, se muestra el SVG de reserva -->
+        <img src="assets/images/isotipo.svg" alt="" width="28" height="28" class="nav__logo-isotipo"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="display:none">
           <rect width="36" height="36" rx="8" fill="url(#logoGrad)"/>
           <path d="M18 8C12.48 8 8 11.58 8 16c0 2.5 1.5 4.7 3.8 6.2L10.5 27l5.2-2.6c.75.15 1.5.2 2.3.2 5.52 0 10-3.58 10-8s-4.48-8-10-8z" fill="white"/>
           <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36"><stop stop-color="#2E5BFF"/><stop offset="1" stop-color="#743AF6"/></linearGradient></defs>
         </svg>
       </span>
+      <!-- Logo primario horizontal (versión blanca sobre fondo oscuro) -->
+      <img src="assets/images/logo-primario-blanco.png" alt="Experiencia Comunica" class="nav__logo-primary"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
       <span class="nav__logo-text">
         <small>EXPERIENCIA</small>
         Comunica
@@ -44,8 +52,8 @@
       <a href="#about" class="nav__link">El evento</a>
       <a href="#speakers" class="nav__link">Ponentes</a>
       <a href="#agenda" class="nav__link">Agenda</a>
-      <a href="#sponsors" class="nav__link">Patrocinadores</a>
-      <a href="#hero" class="nav__cta">Reserva tu plaza</a>
+      <a href="#takeaways" class="nav__link">Qué te llevas</a>
+      <button type="button" class="nav__cta" data-open-modal>Reserva tu plaza</button>
     </div>
     <button class="nav__burger" id="navBurger" aria-label="Abrir menú">
       <span></span><span></span><span></span>
@@ -57,8 +65,8 @@
     <a href="#about" class="mobile-menu__link">El evento</a>
     <a href="#speakers" class="mobile-menu__link">Ponentes</a>
     <a href="#agenda" class="mobile-menu__link">Agenda</a>
-    <a href="#sponsors" class="mobile-menu__link">Patrocinadores</a>
-    <a href="#hero" class="mobile-menu__cta">Reserva tu plaza</a>
+    <a href="#takeaways" class="mobile-menu__link">Qué te llevas</a>
+    <button type="button" class="mobile-menu__cta" data-open-modal>Reserva tu plaza</button>
   </div>
 
   <!-- ============ HERO ============ -->
@@ -67,7 +75,7 @@
     <div class="hero__content">
       <div class="hero__badge">
         <span class="hero__badge-dot"></span>
-        Evento gratuito · Murcia · 2026
+        Evento gratuito · 14 de noviembre 2026 · Murcia
       </div>
       <p class="hero__overtitle">EXPERIENCIA</p>
       <h1 class="hero__title">
@@ -76,10 +84,10 @@
       <p class="hero__subtitle" id="heroSubtitle"></p>
       <p class="hero__description">Desarrolla tu creatividad y mejora tu comunicación</p>
       <div class="hero__actions">
-        <a href="#" class="btn btn--primary">
+        <button type="button" class="btn btn--primary" data-open-modal>
           Reserva tu plaza gratis
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        </button>
         <a href="#about" class="btn btn--ghost">
           Descubrir más
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -107,15 +115,15 @@
         <span class="section-tag">Sobre el evento</span>
         <h2 class="about__title reveal-text">No vienes a escuchar.<br>Vienes a <span class="text-gradient">experimentar.</span></h2>
         <p class="about__paragraph reveal-text">
-          Experiencia Comunica es una experiencia intensiva diseñada para desbloquear la comunicación desde la creatividad y el cuerpo. No es un evento formativo tradicional: no se enseñan técnicas de comunicación, se entrena la comunicación desde la experiencia.
+          Experiencia Comunica es una experiencia intensiva diseñada para desbloquear la comunicación desde la creatividad y el cuerpo. No es un evento formativo tradicional: no se enseñan técnicas de comunicación, se entrena la comunicación desde la creatividad y la práctica.
         </p>
         <p class="about__paragraph reveal-text">
-          A través de dinámicas creativas y participativas, descubrirás cómo comunicar con mayor claridad, espontaneidad, seguridad y conexión emocional. Menos teoría, más acción.
+          A través de ponencias creativas y participativas, descubrirás cómo comunicar con mayor claridad, espontaneidad, seguridad y conexión emocional. Menos teoría, más acción.
         </p>
         <p class="about__paragraph reveal-text">
           Un formato corto, intenso y transformador. Totalmente participativo. Aplicable a tu vida profesional y personal. Diferente a cualquier evento que hayas vivido.
         </p>
-        <p class="about__author reveal-text">— Bexzy, creador de Experiencia Comunica</p>
+        <p class="about__author reveal-text">— Bexzy Gallego &amp; Bexzaida Castañeda, creadoras de Experiencia Comunica</p>
       </div>
       <div class="about__visual" data-parallax="0.06">
         <img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?w=800&h=800&fit=crop" alt="Personas conectando en un evento de comunicación" loading="lazy" class="about__visual-img">
@@ -135,7 +143,7 @@
         <span class="feature-pill__icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.3"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
         </span>
-        5 horas intensivas
+        4 horas intensivas
       </div>
       <div class="feature-pill reveal-text" data-parallax="0.06">
         <span class="feature-pill__icon">
@@ -158,7 +166,7 @@
       </div>
       <div class="stat__divider"></div>
       <div class="stat reveal-text">
-        <span class="stat__number" data-target="5">0</span>
+        <span class="stat__number" data-target="4">0</span>
         <span class="stat__label">Horas intensivas</span>
       </div>
       <div class="stat__divider"></div>
@@ -171,27 +179,30 @@
     <!-- Para quién -->
     <div class="about__audience">
       <h3 class="about__audience-title reveal-text">¿Es para ti?</h3>
+      <p class="about__audience-intro reveal-text">
+        Personas que cada día necesitan comunicar, vender, conectar, presentar sus ideas o relacionarse con otras personas.
+      </p>
       <div class="about__audience-grid">
         <div class="audience-card reveal-text">
           <div class="audience-card__icon">
-            <svg viewBox="0 0 40 40" fill="none" width="40" height="40"><rect width="40" height="40" rx="10" fill="url(#ag1)"/><path d="M20 12v6l4 2" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="18" r="7" stroke="white" stroke-width="1.5"/><path d="M13 30c0-4 3-7 7-7s7 3 7 7" stroke="white" stroke-width="1.5" stroke-linecap="round"/><defs><linearGradient id="ag1" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#2E5BFF"/><stop offset="1" stop-color="#743AF6"/></linearGradient></defs></svg>
+            <svg viewBox="0 0 40 40" fill="none" width="40" height="40"><rect width="40" height="40" rx="10" fill="url(#ag1)"/><path d="M12 29V19l8-6 8 6v10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 29v-6h6v6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="ag1" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#2E5BFF"/><stop offset="1" stop-color="#743AF6"/></linearGradient></defs></svg>
           </div>
-          <h4>Profesionales</h4>
-          <p>Quieres destacar en reuniones, presentaciones y ganar visibilidad interna.</p>
+          <h4>Empresarios y autónomos</h4>
+          <p>Lideras un negocio o equipo consolidado y necesitas comunicar con autoridad para negociar, liderar y seguir creciendo.</p>
         </div>
         <div class="audience-card reveal-text">
           <div class="audience-card__icon">
             <svg viewBox="0 0 40 40" fill="none" width="40" height="40"><rect width="40" height="40" rx="10" fill="url(#ag2)"/><path d="M12 28l4-8 4 4 4-6 4 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="ag2" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#2E5BFF"/><stop offset="1" stop-color="#743AF6"/></linearGradient></defs></svg>
           </div>
           <h4>Emprendedores</h4>
-          <p>Necesitas clientes y quieres aprender a comunicar tu valor sin parecer forzado.</p>
+          <p>Estás comenzando, necesitas clientes y quieres aprender a comunicar tu valor.</p>
         </div>
         <div class="audience-card reveal-text">
           <div class="audience-card__icon">
-            <svg viewBox="0 0 40 40" fill="none" width="40" height="40"><rect width="40" height="40" rx="10" fill="url(#ag3)"/><path d="M14 20h12M14 16h8M14 24h10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><rect x="10" y="11" width="20" height="18" rx="3" stroke="white" stroke-width="1.5"/><defs><linearGradient id="ag3" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#2E5BFF"/><stop offset="1" stop-color="#743AF6"/></linearGradient></defs></svg>
+            <svg viewBox="0 0 40 40" fill="none" width="40" height="40"><rect width="40" height="40" rx="10" fill="url(#ag3)"/><path d="M20 12v6l4 2" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="18" r="7" stroke="white" stroke-width="1.5"/><path d="M13 30c0-4 3-7 7-7s7 3 7 7" stroke="white" stroke-width="1.5" stroke-linecap="round"/><defs><linearGradient id="ag3" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#2E5BFF"/><stop offset="1" stop-color="#743AF6"/></linearGradient></defs></svg>
           </div>
-          <h4>Creadores de contenido</h4>
-          <p>Publicas pero no conectas. Quieres encontrar tu voz y generar impacto real.</p>
+          <h4>Profesionales</h4>
+          <p>Comercial, marketing, gestión… Necesitas transmitir seguridad y destacar en reuniones y presentaciones.</p>
         </div>
       </div>
     </div>
@@ -245,27 +256,21 @@
         </div>
       </div>
       <div class="gallery-item reveal-text">
-        <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&h=400&fit=crop" alt="Grupo de personas conectando en networking" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop" alt="Dos profesionales conectando y cerrando un acuerdo en un evento" loading="lazy">
         <div class="gallery-item__overlay">
           <span>Conexiones reales</span>
         </div>
       </div>
       <div class="gallery-item reveal-text">
-        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop" alt="Taller creativo de equipo" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=600&h=400&fit=crop" alt="Equipo trabajando junto en una dinámica práctica" loading="lazy">
         <div class="gallery-item__overlay">
-          <span>Dinámicas creativas</span>
+          <span>Dinámicas prácticas útiles</span>
         </div>
       </div>
       <div class="gallery-item gallery-item--tall reveal-text">
-        <img src="https://images.unsplash.com/photo-1559223607-a43c990c692c?w=600&h=800&fit=crop" alt="Improvisación y expresión corporal" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&h=800&fit=crop" alt="Profesional usando el lenguaje corporal al exponer sus ideas" loading="lazy">
         <div class="gallery-item__overlay">
           <span>Expresión y cuerpo</span>
-        </div>
-      </div>
-      <div class="gallery-item reveal-text">
-        <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=400&fit=crop" alt="Evento en sala con iluminación profesional" loading="lazy">
-        <div class="gallery-item__overlay">
-          <span>Una experiencia única</span>
         </div>
       </div>
     </div>
@@ -311,66 +316,97 @@
     </div>
     <div class="speakers__grid">
 
-      <!-- Speaker 1: Viviana -->
+      <!-- Speaker 1: Viviana Varón -->
       <article class="speaker-card" data-tilt>
         <div class="speaker-card__image">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=450&fit=crop&crop=face" alt="Viviana — Ponencia principal" loading="lazy">
+          <img src="assets/images/viviana-varon.jpg" alt="Viviana Varón — Coach y Terapeuta" loading="lazy"
+               onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&amp;h=450&amp;fit=crop&amp;crop=face';">
           <div class="speaker-card__number">01</div>
         </div>
         <div class="speaker-card__content">
-          <span class="speaker-card__tag">Comunicación y expresión</span>
-          <h3 class="speaker-card__name">Viviana</h3>
-          <p class="speaker-card__role">Ponencia principal</p>
-          <p class="speaker-card__talk">"Desbloquear tu forma de comunicar"</p>
-          <p class="speaker-card__bio">40 minutos de ponencia transformadora sobre cómo conectar con claridad, seguridad y emoción en cualquier contexto: desde una reunión hasta un escenario.</p>
-          <div class="speaker-card__meta">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3.5l2.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-            10:30h — 40 min
-          </div>
+          <span class="speaker-card__tag">Confirmada</span>
+          <h3 class="speaker-card__name">Viviana Varón</h3>
+          <p class="speaker-card__role">Coach y Terapeuta</p>
+          <p class="speaker-card__talk">"El poder de las palabras"</p>
+          <p class="speaker-card__bio">Identificación de creencias que te bloquean, herramientas de inteligencia emocional y tu sello de autoridad: "la autenticidad".</p>
+          <a href="https://www.instagram.com/la_varoncoach/" class="speaker-card__meta" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.8" cy="6.2" r="1.3" fill="currentColor"/></svg>
+            @la_varoncoach
+          </a>
         </div>
       </article>
 
-      <!-- Speaker 2: Mercedes -->
+      <!-- Speaker 2: Jenny Cárdenas Forero -->
       <article class="speaker-card" data-tilt>
         <div class="speaker-card__image">
-          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=450&fit=crop&crop=face" alt="Mercedes — Activadora creativa" loading="lazy">
+          <img src="assets/images/jenny-cardenas.jpg" alt="Jenny Cárdenas Forero — Coach y Empresaria en Inversiones y Seguros" loading="lazy"
+               onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&amp;h=450&amp;fit=crop&amp;crop=face';">
           <div class="speaker-card__number">02</div>
         </div>
         <div class="speaker-card__content">
-          <span class="speaker-card__tag">Creatividad + cuerpo</span>
-          <h3 class="speaker-card__name">Mercedes</h3>
-          <p class="speaker-card__role">Activadora creativa</p>
-          <p class="speaker-card__talk">"La creatividad como puerta de entrada a la comunicación"</p>
-          <p class="speaker-card__bio">Dinámicas teatrales, ejercicios creativos e improvisación guiada para desarrollar soltura corporal, expresiva y capacidad de improvisar.</p>
-          <div class="speaker-card__meta">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3.5l2.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-            10:05h + 12:00h — Varias sesiones
-          </div>
+          <span class="speaker-card__tag">Confirmada</span>
+          <h3 class="speaker-card__name">Jenny Cárdenas Forero</h3>
+          <p class="speaker-card__role">Coach y Empresaria en Inversiones y Seguros</p>
+          <p class="speaker-card__talk">"Tu historia ES tu red: cómo el storytelling convierte contactos en oportunidades reales"</p>
+          <p class="speaker-card__bio">Aprende a conectar con intención y a comunicar tu valor de forma memorable. Estrategias reales de networking y narración personal para empresarios, autónomos y profesionales.</p>
+          <a href="https://www.instagram.com/latitudlife/" class="speaker-card__meta" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.8" cy="6.2" r="1.3" fill="currentColor"/></svg>
+            @latitudlife
+          </a>
         </div>
       </article>
 
-      <!-- Speaker 3: Jim -->
-      <article class="speaker-card" data-tilt>
-        <div class="speaker-card__image">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=450&fit=crop&crop=face" alt="Jim — Ponente" loading="lazy">
+      <!-- Speaker 3: Por confirmar -->
+      <article class="speaker-card speaker-card--pending" data-tilt>
+        <div class="speaker-card__image speaker-card__image--pending">
+          <span class="speaker-card__pending-mark">?</span>
           <div class="speaker-card__number">03</div>
         </div>
         <div class="speaker-card__content">
-          <span class="speaker-card__tag">Comunicación digital</span>
-          <h3 class="speaker-card__name">Jim</h3>
-          <p class="speaker-card__role">Ponente</p>
-          <p class="speaker-card__talk">"Convierte lo que sabes en algo que impacte"</p>
-          <p class="speaker-card__bio">Cómo comunicar tu valor en redes, en persona y en entornos profesionales. Aprende a explicar lo que haces para que otros lo entiendan y lo valoren.</p>
-          <div class="speaker-card__meta">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3.5l2.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-            12:45h — 20 min
-          </div>
+          <span class="speaker-card__tag">Por confirmar</span>
+          <h3 class="speaker-card__name">Ponente por confirmar</h3>
+          <p class="speaker-card__role">Especialista en Comunicación Persuasiva y Lenguaje corporal</p>
+          <p class="speaker-card__bio">Estamos cerrando los últimos detalles. Muy pronto anunciaremos quién completa el cartel.</p>
+        </div>
+      </article>
+
+      <!-- Mesa redonda -->
+      <article class="speaker-card speaker-card--special" data-tilt>
+        <div class="speaker-card__image speaker-card__image--special">
+          <svg viewBox="0 0 64 64" fill="none" width="56" height="56" aria-hidden="true">
+            <circle cx="20" cy="22" r="7" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="44" cy="22" r="7" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="32" cy="43" r="7" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M26 26l12 0M24 30l6 8M40 30l-6 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="speaker-card__number">04</div>
+        </div>
+        <div class="speaker-card__content">
+          <span class="speaker-card__tag">Debate abierto</span>
+          <h3 class="speaker-card__name">Mesa Redonda</h3>
+          <p class="speaker-card__role">Viviana Varón, Jenny Cárdenas…</p>
+          <p class="speaker-card__talk">"Comunicación en el Mundo Real"</p>
+          <p class="speaker-card__bio">Espacio interactivo de debate donde profesionales de distintos sectores responderán en directo a las preguntas del público asistente.</p>
+        </div>
+      </article>
+
+      <!-- Invitado sorpresa -->
+      <article class="speaker-card speaker-card--teaser" data-tilt>
+        <div class="speaker-card__image speaker-card__image--teaser">
+          <span class="speaker-card__teaser-mark">★</span>
+          <div class="speaker-card__number">05</div>
+        </div>
+        <div class="speaker-card__content">
+          <span class="speaker-card__tag">Invitado sorpresa</span>
+          <h3 class="speaker-card__name">Comunicación sin barreras</h3>
+          <p class="speaker-card__role">Identidad por revelar</p>
+          <p class="speaker-card__bio">Una intervención de alto impacto que no dejará a nadie indiferente.</p>
         </div>
       </article>
 
     </div>
     <p class="speakers__host reveal-text">
-      Presentado y dirigido por <strong>Bexzy</strong> — creador de Experiencia Comunica
+      Presentado y dirigido por <strong>Bexzy Gallego &amp; Bexzaida Castañeda</strong> — creadoras de Experiencia Comunica
     </p>
   </section>
 
@@ -387,106 +423,159 @@
   <section class="agenda" id="agenda">
     <div class="agenda__container">
       <span class="section-tag">Agenda</span>
-      <h2 class="agenda__title reveal-text">5 horas que cambian tu forma de comunicar</h2>
-      <p class="agenda__subtitle reveal-text">Un formato intensivo, participativo y transformador</p>
+      <h2 class="agenda__title reveal-text">4 horas que cambian tu forma de comunicar</h2>
+      <p class="agenda__subtitle reveal-text">14 de noviembre de 2026 · Un formato intensivo, participativo y transformador</p>
 
       <div class="agenda__timeline">
         <div class="timeline-item reveal-text">
           <div class="timeline-item__time">09:30</div>
           <div class="timeline-item__dot"></div>
           <div class="timeline-item__content">
-            <h4>Recepción y bienvenida</h4>
+            <h4>Recepción y Registro</h4>
             <p>Llegada, acreditación y primer contacto con los asistentes</p>
-            <span class="timeline-item__duration">30 min</span>
+            <span class="timeline-item__duration">09:30 – 10:00</span>
           </div>
         </div>
         <div class="timeline-item reveal-text">
           <div class="timeline-item__time">10:00</div>
           <div class="timeline-item__dot timeline-item__dot--active"></div>
           <div class="timeline-item__content">
-            <h4>Apertura — Bexzy</h4>
+            <h4>Bienvenida</h4>
             <p>Presentación del evento y contexto de lo que va a suceder</p>
-            <span class="timeline-item__duration">5 min</span>
+            <span class="timeline-item__duration">10:00 – 10:10</span>
           </div>
         </div>
         <div class="timeline-item reveal-text">
-          <div class="timeline-item__time">10:05</div>
+          <div class="timeline-item__time">10:10</div>
           <div class="timeline-item__dot timeline-item__dot--active"></div>
           <div class="timeline-item__content">
-            <h4>Activadora Creativa — Mercedes</h4>
-            <p>Dinámicas teatrales e improvisación para romper el hielo y conectar</p>
-            <span class="timeline-item__duration">20 min</span>
+            <h4>Ponencia 1: Invitado Sorpresa</h4>
+            <p>Comunicación sin barreras: una intervención de alto impacto</p>
+            <span class="timeline-item__duration">10:10 – 10:25</span>
           </div>
         </div>
         <div class="timeline-item reveal-text">
           <div class="timeline-item__time">10:30</div>
           <div class="timeline-item__dot timeline-item__dot--active"></div>
           <div class="timeline-item__content timeline-item__content--highlight">
-            <h4>Ponencia Principal — Viviana</h4>
-            <p>Desbloquear tu comunicación desde la experiencia, no desde la teoría</p>
-            <span class="timeline-item__duration">40 min</span>
+            <h4>Ponencia 2: Viviana Varón — El poder de las palabras</h4>
+            <p>Creencias que te bloquean, inteligencia emocional y tu sello de autoridad: la autenticidad</p>
+            <span class="timeline-item__duration">10:30 – 11:05</span>
           </div>
         </div>
         <div class="timeline-item reveal-text">
-          <div class="timeline-item__time">11:15</div>
+          <div class="timeline-item__time">11:10</div>
           <div class="timeline-item__dot timeline-item__dot--active"></div>
           <div class="timeline-item__content">
-            <h4>MiniPonencia — Bexzy</h4>
-            <p>Herramientas claras para estructurar y transmitir tus ideas</p>
-            <span class="timeline-item__duration">20 min</span>
+            <h4>Ponencia 3: Comunicación Persuasiva &amp; Ventas</h4>
+            <p>Persuasión y lenguaje corporal aplicados al entorno profesional</p>
+            <span class="timeline-item__duration">11:10 – 11:25</span>
           </div>
         </div>
         <div class="timeline-item reveal-text">
-          <div class="timeline-item__time">11:35</div>
+          <div class="timeline-item__time">11:25</div>
           <div class="timeline-item__dot"></div>
           <div class="timeline-item__content timeline-item__content--break">
-            <h4>Pausa café</h4>
+            <h4>Pausa Café Express</h4>
             <p>Networking y descanso</p>
-            <span class="timeline-item__duration">20 min</span>
+            <span class="timeline-item__duration">11:25 – 11:40</span>
           </div>
         </div>
         <div class="timeline-item reveal-text">
-          <div class="timeline-item__time">12:00</div>
+          <div class="timeline-item__time">11:45</div>
           <div class="timeline-item__dot timeline-item__dot--active"></div>
           <div class="timeline-item__content timeline-item__content--highlight">
-            <h4>Ponencia + Activación — Bexzy & Mercedes</h4>
-            <p>Sesión combinada de comunicación práctica con dinámicas creativas</p>
-            <span class="timeline-item__duration">40 min</span>
+            <h4>Mesa Redonda &amp; Debate Vivo</h4>
+            <p>Profesionales de distintos sectores responden en directo a las preguntas del público</p>
+            <span class="timeline-item__duration">11:45 – 12:25</span>
           </div>
         </div>
         <div class="timeline-item reveal-text">
-          <div class="timeline-item__time">12:45</div>
+          <div class="timeline-item__time">12:30</div>
           <div class="timeline-item__dot timeline-item__dot--active"></div>
+          <div class="timeline-item__content timeline-item__content--highlight">
+            <h4>Ponencia 4: Jenny Cárdenas — Tu historia ES tu red</h4>
+            <p>Cómo el storytelling convierte contactos en oportunidades reales</p>
+            <span class="timeline-item__duration">12:30 – 12:55</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal-text">
+          <div class="timeline-item__time">12:55</div>
+          <div class="timeline-item__dot"></div>
           <div class="timeline-item__content">
-            <h4>Ponencia — Jim</h4>
-            <p>Convierte lo que sabes en algo que impacte: comunicación con resultados</p>
-            <span class="timeline-item__duration">20 min</span>
+            <h4>Cierre y Conclusiones</h4>
+            <p>Reflexión final y herramientas para seguir conectando</p>
+            <span class="timeline-item__duration">12:55 – 13:05</span>
           </div>
         </div>
         <div class="timeline-item reveal-text">
           <div class="timeline-item__time">13:05</div>
-          <div class="timeline-item__dot"></div>
-          <div class="timeline-item__content">
-            <h4>Cierre y tips de networking — Bexzy</h4>
-            <p>Reflexión final y herramientas para seguir conectando</p>
-            <span class="timeline-item__duration">10 min</span>
-          </div>
-        </div>
-        <div class="timeline-item reveal-text">
-          <div class="timeline-item__time">13:30</div>
           <div class="timeline-item__dot timeline-item__dot--wine"></div>
           <div class="timeline-item__content timeline-item__content--wine">
-            <h4>Vino Español & Networking</h4>
+            <h4>Vino Español &amp; Networking de Alto Valor</h4>
             <p>El momento perfecto para conectar, compartir y crear relaciones reales</p>
-            <span class="timeline-item__duration">45 min</span>
+            <span class="timeline-item__duration">13:05 – 14:00</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ SPONSORS ============ -->
-  <section class="sponsors" id="sponsors">
+  <!-- ============ TAKEAWAYS ============ -->
+  <section class="takeaways" id="takeaways">
+    <div class="takeaways__container">
+      <span class="section-tag">¿Qué te llevas?</span>
+      <h2 class="takeaways__title reveal-text">Lo que te llevas puesto al salir</h2>
+      <p class="takeaways__subtitle reveal-text">
+        Una experiencia 100% práctica para romper bloqueos, comunicar con seguridad y conectar con oportunidades reales.
+      </p>
+
+      <div class="takeaways__grid">
+        <article class="takeaway-card reveal-text">
+          <span class="takeaway-card__number">01</span>
+          <h3 class="takeaway-card__title">Desbloqueo &amp; inteligencia emocional</h3>
+          <p class="takeaway-card__hook">"Si sientes que el miedo o las dudas limitan el impacto de tu voz."</p>
+          <p class="takeaway-card__body">Identifica las creencias que te frenan, desarrolla herramientas de autoconcepción y fortalece la resiliencia necesaria para comunicar sin barreras.</p>
+          <div class="takeaway-card__tags">
+            <span>Autoconfianza</span><span>Expresión</span><span>Autenticidad</span>
+          </div>
+        </article>
+
+        <article class="takeaway-card reveal-text">
+          <span class="takeaway-card__number">02</span>
+          <h3 class="takeaway-card__title">Networking &amp; storytelling</h3>
+          <p class="takeaway-card__hook">"Si quieres conectar con intención y transformar contactos en oportunidades."</p>
+          <p class="takeaway-card__body">Domina el arte de iniciar conversaciones fluidas, aplica el storytelling a tu historia profesional y haz networking real durante el propio evento.</p>
+          <div class="takeaway-card__tags">
+            <span>Networking en vivo</span><span>Storytelling</span><span>Alianzas</span>
+          </div>
+        </article>
+
+        <article class="takeaway-card reveal-text">
+          <span class="takeaway-card__number">03</span>
+          <h3 class="takeaway-card__title">Comunicación auténtica &amp; sello personal</h3>
+          <p class="takeaway-card__hook">"Si quieres encontrar tu propia voz y motivarte a dejarla salir."</p>
+          <p class="takeaway-card__body">Inspírate y pierde el miedo a mostrarte tal como eres, y transmite tus ideas con absoluta verdad, soltura y conexión humana.</p>
+          <div class="takeaway-card__tags">
+            <span>Autenticidad</span><span>Marca personal</span><span>Expresión libre</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="takeaways__final reveal-text">
+        <p class="takeaways__final-text">
+          Aforo limitado a <strong class="text-gradient">60 plazas</strong>. 4 horas intensivas de aprendizaje real.
+        </p>
+        <button type="button" class="btn btn--primary btn--large" data-open-modal>
+          Reservar mi plaza gratuita
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPONSORS (oculto temporalmente) ============ -->
+  <section class="sponsors" id="sponsors" hidden>
     <div class="sponsors__container">
       <span class="section-tag">Patrocinadores</span>
       <h2 class="sponsors__title reveal-text">Hacen posible esta experiencia</h2>
@@ -553,7 +642,7 @@
 
       <div class="sponsors__cta reveal-text">
         <p>¿Quieres ser patrocinador de Experiencia Comunica?</p>
-        <a href="mailto:hola@experienciacomunica.es" class="btn btn--outline">Escríbenos → hola@experienciacomunica.es</a>
+        <a href="mailto:experienciacomunicamurcia@gmail.com" class="btn btn--outline">Escríbenos → experienciacomunicamurcia@gmail.com</a>
       </div>
     </div>
   </section>
@@ -568,7 +657,7 @@
             Comunica
           </a>
           <p class="footer__tagline">"¿Hablas o comunicas?"</p>
-          <p class="footer__location">Murcia · 2026</p>
+          <p class="footer__location">14 de noviembre de 2026 · Murcia</p>
           <p class="footer__free">Evento 100% gratuito</p>
         </div>
         <div class="footer__col">
@@ -577,17 +666,16 @@
           <a href="#about" class="footer__link">El evento</a>
           <a href="#speakers" class="footer__link">Ponentes</a>
           <a href="#agenda" class="footer__link">Agenda</a>
-          <a href="#sponsors" class="footer__link">Patrocinadores</a>
+          <a href="#takeaways" class="footer__link">Qué te llevas</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__col-title">Contacto</h4>
-          <a href="mailto:hola@experienciacomunica.es" class="footer__link">hola@experienciacomunica.es</a>
+          <a href="mailto:experienciacomunicamurcia@gmail.com" class="footer__link">experienciacomunicamurcia@gmail.com</a>
+          <button type="button" class="footer__link footer__link--btn" data-open-modal>Reserva tu plaza</button>
         </div>
         <div class="footer__col">
           <h4 class="footer__col-title">Redes</h4>
-          <a href="#" class="footer__link" target="_blank" rel="noopener">Instagram</a>
-          <a href="#" class="footer__link" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="#" class="footer__link" target="_blank" rel="noopener">Twitter / X</a>
+          <a href="https://www.instagram.com/experiencia.comunica/" class="footer__link" target="_blank" rel="noopener">Instagram</a>
         </div>
       </div>
       <div class="footer__bottom">
@@ -596,6 +684,45 @@
       </div>
     </div>
   </footer>
+
+  <!-- ============ MODAL: aviso de inscripciones ============ -->
+  <div class="modal" id="signupModal" role="dialog" aria-modal="true" aria-labelledby="signupModalTitle" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__dialog" role="document">
+      <button type="button" class="modal__close" data-close-modal aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+
+      <span class="modal__badge">Aforo limitado a 60 personas</span>
+      <h3 class="modal__title" id="signupModalTitle">¡Muy pronto abrirán las inscripciones!</h3>
+      <p class="modal__text">
+        Déjanos tu email o teléfono y te avisamos entre los primeros, para que no te quedes sin tu plaza.
+      </p>
+
+      <form class="modal__form" id="signupForm" novalidate>
+        <label class="modal__label" for="signupEmail">Email</label>
+        <input class="modal__input" type="email" id="signupEmail" name="email" placeholder="tunombre@email.com" autocomplete="email">
+
+        <label class="modal__label" for="signupPhone">Teléfono <span>(opcional)</span></label>
+        <input class="modal__input" type="tel" id="signupPhone" name="phone" placeholder="600 00 00 00" autocomplete="tel">
+
+        <p class="modal__error" id="signupError" hidden>Escribe un email o un teléfono para que podamos avisarte.</p>
+
+        <button type="submit" class="btn btn--primary modal__submit">
+          Avísame de las inscripciones
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="modal__hint">Se abrirá tu aplicación de correo con el mensaje ya preparado. Solo tendrás que darle a enviar.</p>
+      </form>
+
+      <div class="modal__divider"><span>o</span></div>
+
+      <a href="https://www.instagram.com/experiencia.comunica/" class="btn btn--ghost modal__instagram" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.8" cy="6.2" r="1.3" fill="currentColor"/></svg>
+        Síguenos en Instagram
+      </a>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>

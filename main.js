@@ -78,7 +78,7 @@
       requestAnimationFrame(loop);
     })();
 
-    document.querySelectorAll('a, button, .speaker-card, .sponsor-logo, .btn, .audience-card, .feeling-card, .feature-pill').forEach(function (el) {
+    document.querySelectorAll('a, button, .speaker-card, .sponsor-logo, .btn, .audience-card, .feeling-card, .feature-pill, .takeaway-card').forEach(function (el) {
       el.addEventListener('mouseenter', function () { ring.classList.add('hover'); });
       el.addEventListener('mouseleave', function () { ring.classList.remove('hover'); });
     });
@@ -163,6 +163,7 @@
 
     // --- Reveal text on scroll ---
     document.querySelectorAll('.reveal-text').forEach(function (el, i) {
+      if (el.closest('[hidden]')) return;
       gsap.fromTo(el,
         { opacity: 0, y: 35 },
         {
@@ -333,17 +334,32 @@
       }
     );
 
-    // --- Sponsor logos ---
-    gsap.fromTo('.sponsor-logo',
-      { opacity: 0, y: 25 },
+    // --- Takeaway cards stagger ---
+    gsap.fromTo('.takeaway-card',
+      { opacity: 0, y: 45, scale: 0.96 },
       {
-        opacity: 0.5, y: 0,
-        duration: 0.7,
-        stagger: 0.08,
+        opacity: 1, y: 0, scale: 1,
+        duration: 0.85,
+        stagger: 0.14,
         ease: 'expo.out',
-        scrollTrigger: { trigger: '.sponsors__logos', start: 'top 85%' }
+        scrollTrigger: { trigger: '.takeaways__grid', start: 'top 85%' }
       }
     );
+
+    // --- Sponsor logos (skipped while the section is hidden) ---
+    var sponsorsSection = document.getElementById('sponsors');
+    if (sponsorsSection && !sponsorsSection.hidden) {
+      gsap.fromTo('.sponsor-logo',
+        { opacity: 0, y: 25 },
+        {
+          opacity: 0.5, y: 0,
+          duration: 0.7,
+          stagger: 0.08,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: '.sponsors__logos', start: 'top 85%' }
+        }
+      );
+    }
 
     // --- Marquee speed change on scroll ---
     gsap.to('.marquee__track', {
@@ -390,7 +406,8 @@
     });
 
     // --- Section titles scale on approach ---
-    document.querySelectorAll('.about__title, .speakers__title, .agenda__title, .sponsors__title').forEach(function (title) {
+    document.querySelectorAll('.about__title, .speakers__title, .agenda__title, .takeaways__title, .sponsors__title').forEach(function (title) {
+      if (title.closest('[hidden]')) return;
       gsap.fromTo(title,
         { scale: 0.92, opacity: 0 },
         {
@@ -433,6 +450,102 @@
   }
 
   initGSAP();
+
+  // ============================================================
+  // Signup Modal (aviso de inscripciones)
+  // ============================================================
+  var modal = document.getElementById('signupModal');
+
+  if (modal) {
+    var modalDialog = modal.querySelector('.modal__dialog');
+    var signupForm = document.getElementById('signupForm');
+    var signupEmail = document.getElementById('signupEmail');
+    var signupPhone = document.getElementById('signupPhone');
+    var signupError = document.getElementById('signupError');
+    var lastFocused = null;
+
+    function openModal() {
+      lastFocused = document.activeElement;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      if (lenis) lenis.stop();
+      // Force reflow so the opening transition runs
+      void modal.offsetWidth;
+      modal.classList.add('open');
+      if (signupEmail) signupEmail.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lenis) lenis.start();
+      setTimeout(function () { modal.hidden = true; }, 350);
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    }
+
+    document.querySelectorAll('[data-open-modal]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        // Close the mobile menu first so the modal isn't stacked behind it
+        if (mobileMenu && mobileMenu.classList.contains('open')) {
+          if (burger) burger.classList.remove('active');
+          mobileMenu.classList.remove('open');
+        }
+        openModal();
+      });
+    });
+
+    modal.querySelectorAll('[data-close-modal]').forEach(function (el) {
+      el.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') {
+        closeModal();
+        return;
+      }
+      // Keep focus inside the dialog while it is open
+      if (e.key === 'Tab' && modalDialog) {
+        var focusables = modalDialog.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"])');
+        if (!focusables.length) return;
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    if (signupForm) {
+      signupForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var email = signupEmail ? signupEmail.value.trim() : '';
+        var phone = signupPhone ? signupPhone.value.trim() : '';
+
+        if (!email && !phone) {
+          if (signupError) signupError.hidden = false;
+          return;
+        }
+        if (signupError) signupError.hidden = true;
+
+        var subject = 'Avisadme de las inscripciones — Experiencia Comunica';
+        var body = 'Hola, quiero que me aviséis cuando abran las inscripciones del evento del 14 de noviembre de 2026.\n\n' +
+                   'Email: ' + (email || '—') + '\n' +
+                   'Teléfono: ' + (phone || '—') + '\n\n' +
+                   '¡Gracias!';
+
+        window.location.href = 'mailto:experienciacomunicamurcia@gmail.com' +
+          '?subject=' + encodeURIComponent(subject) +
+          '&body=' + encodeURIComponent(body);
+      });
+    }
+  }
 
   // ============================================================
   // 3D Tilt on speaker cards

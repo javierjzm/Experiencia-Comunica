@@ -29,6 +29,9 @@
 /* ---- Reset ---- */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* [hidden] must win over the display rules set on sections/grids below */
+[hidden] { display: none !important; }
+
 html {
   font-size: clamp(15px, 1.1vw, 18px);
   -webkit-font-smoothing: antialiased;
@@ -1383,6 +1386,377 @@ html.lenis, html.lenis body {
 .footer__link--small { font-size: 0.72rem; }
 
 /* ============================================================
+   NAV LOGO (isotipo + logo primario)
+   ============================================================ */
+.nav__logo-isotipo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.nav__logo-primary {
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+  transition: height 0.4s;
+}
+.nav.scrolled .nav__logo-primary { height: 26px; }
+
+/* ============================================================
+   AUDIENCE INTRO
+   ============================================================ */
+.about__audience-intro {
+  max-width: 640px;
+  margin: -1.8rem auto 3rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   SPEAKER CARD VARIANTS (pending / mesa redonda / teaser)
+   ============================================================ */
+.speaker-card__image--pending,
+.speaker-card__image--special,
+.speaker-card__image--teaser {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue);
+}
+.speaker-card__image--special { color: rgba(46, 91, 255, 0.55); }
+.speaker-card__image--teaser {
+  background: linear-gradient(135deg, rgba(116, 58, 246, 0.22), rgba(46, 91, 255, 0.12));
+}
+.speaker-card__pending-mark,
+.speaker-card__teaser-mark {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  background: var(--gradient-h);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.55;
+}
+.speaker-card--pending { border-style: dashed; }
+.speaker-card--pending .speaker-card__tag,
+.speaker-card--teaser .speaker-card__tag {
+  background: rgba(116, 58, 246, 0.12);
+  color: var(--purple);
+}
+.speaker-card--teaser { border-color: rgba(116, 58, 246, 0.2); }
+
+/* Speaker meta as Instagram link */
+.speaker-card__meta {
+  transition: color 0.3s;
+}
+a.speaker-card__meta:hover { color: var(--white); }
+a.speaker-card__meta:hover svg { color: var(--purple); }
+
+/* ============================================================
+   TAKEAWAYS
+   ============================================================ */
+.takeaways {
+  padding: 8rem 3rem 7rem;
+  background: var(--bg-alt);
+  position: relative;
+  overflow: hidden;
+}
+.takeaways::before {
+  content: '';
+  position: absolute;
+  top: -180px; left: -180px;
+  width: 520px; height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(116, 58, 246, 0.07), transparent 70%);
+  pointer-events: none;
+}
+.takeaways__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.takeaways__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 0.9rem;
+}
+.takeaways__subtitle {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto 4rem;
+}
+.takeaways__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: left;
+}
+.takeaway-card {
+  position: relative;
+  padding: 2.2rem 2rem;
+  border: 1px solid rgba(46, 91, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(46, 91, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.4s, background 0.4s, transform 0.4s var(--ease-out-expo);
+}
+.takeaway-card:hover {
+  border-color: rgba(46, 91, 255, 0.28);
+  background: rgba(46, 91, 255, 0.06);
+  transform: translateY(-5px);
+}
+.takeaway-card__number {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  background: var(--gradient-h);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+.takeaway-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.9rem;
+}
+.takeaway-card__hook {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 0.9rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid;
+  border-image: var(--gradient) 1;
+  color: var(--white);
+  opacity: 0.85;
+}
+.takeaway-card__body {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+.takeaway-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(46, 91, 255, 0.1);
+}
+.takeaway-card__tags span {
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  background: rgba(116, 58, 246, 0.1);
+  color: var(--purple);
+}
+.takeaways__final {
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(46, 91, 255, 0.12);
+}
+.takeaways__final-text {
+  font-family: var(--font-heading);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 1.8rem;
+}
+.btn--large {
+  font-size: 0.92rem;
+  padding: 1.15rem 2.6rem;
+}
+
+/* ============================================================
+   MODAL (aviso de inscripciones)
+   ============================================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out-quart);
+}
+.modal.open { opacity: 1; }
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 0, 30, 0.82);
+  backdrop-filter: blur(10px);
+}
+.modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  padding: 2.6rem 2.2rem 2.2rem;
+  border: 1px solid rgba(46, 91, 255, 0.22);
+  border-radius: 18px;
+  background: linear-gradient(160deg, #0d0d2b, #06061a);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55), 0 0 90px rgba(46, 91, 255, 0.1);
+  text-align: center;
+  transform: translateY(18px) scale(0.97);
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.modal.open .modal__dialog { transform: translateY(0) scale(1); }
+.modal__close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  border: 1px solid rgba(247, 247, 247, 0.1);
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+.modal__close:hover {
+  color: var(--white);
+  border-color: rgba(46, 91, 255, 0.4);
+  background: rgba(46, 91, 255, 0.08);
+}
+.modal__badge {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(116, 58, 246, 0.3);
+  border-radius: 100px;
+  background: rgba(116, 58, 246, 0.08);
+  color: var(--white);
+  margin-bottom: 1.3rem;
+}
+.modal__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+}
+.modal__text {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin-bottom: 1.8rem;
+}
+.modal__form {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+.modal__label {
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 0.45rem;
+}
+.modal__label span {
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.modal__input {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--white);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.1rem;
+  border: 1px solid rgba(46, 91, 255, 0.18);
+  border-radius: 9px;
+  background: rgba(46, 91, 255, 0.04);
+  transition: border-color 0.3s, background 0.3s;
+  cursor: none;
+}
+.modal__input::placeholder { color: rgba(247, 247, 247, 0.32); }
+.modal__input:focus {
+  outline: none;
+  border-color: rgba(46, 91, 255, 0.55);
+  background: rgba(46, 91, 255, 0.07);
+}
+.modal__error {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #ff8b8b;
+  margin-bottom: 0.9rem;
+}
+.modal__submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.3rem;
+}
+.modal__hint {
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  opacity: 0.75;
+  margin-top: 0.8rem;
+  text-align: center;
+}
+.modal__divider {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 1.5rem 0 1.2rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+.modal__divider::before,
+.modal__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(46, 91, 255, 0.15);
+}
+.modal__instagram {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Footer link rendered as a button */
+.footer__link--btn {
+  text-align: left;
+  font-family: var(--font-body);
+  padding: 0;
+}
+
+@media (pointer: coarse) {
+  .modal__input { cursor: auto; }
+}
+
+/* ============================================================
    REVEAL ANIMATION
    ============================================================ */
 .reveal-text {
@@ -1435,6 +1809,7 @@ html.lenis, html.lenis body {
 @media (max-width: 1200px) {
   .about__container { gap: 3.5rem; }
   .speakers__grid { gap: 1.5rem; }
+  .takeaways__grid { gap: 1.5rem; }
 }
 
 @media (max-width: 960px) {
@@ -1456,6 +1831,12 @@ html.lenis, html.lenis body {
   .speakers__grid {
     grid-template-columns: 1fr;
     max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .takeaways__grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
     margin: 0 auto;
   }
 
@@ -1483,6 +1864,13 @@ html.lenis, html.lenis body {
   .speakers { padding: 5rem 1.5rem 4rem; }
   .agenda { padding: 5rem 1.5rem 5rem; }
   .sponsors { padding: 5rem 1.5rem 4rem; }
+  .takeaways { padding: 5rem 1.5rem 4rem; }
+
+  .nav__logo-primary { height: 24px; }
+  .nav.scrolled .nav__logo-primary { height: 22px; }
+
+  .modal { padding: 1rem; }
+  .modal__dialog { padding: 2.4rem 1.5rem 1.8rem; }
 
   .sponsor-logo::after { display: none; }
 
