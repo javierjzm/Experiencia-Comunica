@@ -458,10 +458,6 @@
 
   if (modal) {
     var modalDialog = modal.querySelector('.modal__dialog');
-    var signupForm = document.getElementById('signupForm');
-    var signupEmail = document.getElementById('signupEmail');
-    var signupPhone = document.getElementById('signupPhone');
-    var signupError = document.getElementById('signupError');
     var lastFocused = null;
 
     function openModal() {
@@ -472,7 +468,8 @@
       // Force reflow so the opening transition runs
       void modal.offsetWidth;
       modal.classList.add('open');
-      if (signupEmail) signupEmail.focus();
+      var firstFocusable = modalDialog && modalDialog.querySelector('a[href], button:not([data-close-modal])');
+      if (firstFocusable) firstFocusable.focus();
     }
 
     function closeModal() {
@@ -521,30 +518,6 @@
       }
     });
 
-    if (signupForm) {
-      signupForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        var email = signupEmail ? signupEmail.value.trim() : '';
-        var phone = signupPhone ? signupPhone.value.trim() : '';
-
-        if (!email && !phone) {
-          if (signupError) signupError.hidden = false;
-          return;
-        }
-        if (signupError) signupError.hidden = true;
-
-        var subject = 'Avisadme de las inscripciones — Experiencia Comunica';
-        var body = 'Hola, quiero que me aviséis cuando abran las inscripciones del evento del 14 de noviembre de 2026.\n\n' +
-                   'Email: ' + (email || '—') + '\n' +
-                   'Teléfono: ' + (phone || '—') + '\n\n' +
-                   '¡Gracias!';
-
-        window.location.href = 'mailto:experienciacomunicamurcia@gmail.com' +
-          '?subject=' + encodeURIComponent(subject) +
-          '&body=' + encodeURIComponent(body);
-      });
-    }
   }
 
   // ============================================================
