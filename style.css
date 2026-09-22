@@ -60,7 +60,8 @@ button { background: none; border: none; color: inherit; cursor: none; font-fami
   position: fixed;
   top: 0; left: 0;
   pointer-events: none;
-  z-index: 10000;
+  /* Above everything, modal included, so the cursor is never occluded */
+  z-index: 10010;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: opacity 0.3s;
