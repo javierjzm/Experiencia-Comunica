@@ -1416,18 +1416,70 @@ html.lenis, html.lenis body {
 /* ============================================================
    SPEAKER CARD VARIANTS (pending / mesa redonda / teaser)
    ============================================================ */
-.speaker-card__image--pending,
-.speaker-card__image--special,
-.speaker-card__image--teaser {
+.speaker-card__image--pending {
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--blue);
 }
-.speaker-card__image--special { color: rgba(46, 91, 255, 0.55); }
-.speaker-card__image--teaser {
-  background: linear-gradient(135deg, rgba(116, 58, 246, 0.22), rgba(46, 91, 255, 0.12));
+/* Surprise guest: silhouette over a colour-block wall, in the site palette */
+.speaker-card__image--teaser { position: relative; padding: 0; }
+.teaser-scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  overflow: hidden;
 }
+.teaser-scene__tile { display: block; }
+.teaser-scene__tile:nth-child(1)  { background: #2E5BFF; }
+.teaser-scene__tile:nth-child(2)  { background: #743AF6; }
+.teaser-scene__tile:nth-child(3)  { background: #0036AD; }
+.teaser-scene__tile:nth-child(4)  { background: #483DF8; }
+.teaser-scene__tile:nth-child(5)  { background: #663399; }
+.teaser-scene__tile:nth-child(6)  { background: #2E5BFF; }
+.teaser-scene__tile:nth-child(7)  { background: #743AF6; }
+.teaser-scene__tile:nth-child(8)  { background: #020063; }
+.teaser-scene__tile:nth-child(9)  { background: #483DF8; }
+.teaser-scene__tile:nth-child(10) { background: #0036AD; }
+.teaser-scene__tile:nth-child(11) { background: #663399; }
+.teaser-scene__tile:nth-child(12) { background: #2E5BFF; }
+.teaser-scene__figure {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 78%;
+  width: auto;
+  color: #06061a;
+}
+.speaker-card__teaser-badge {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(6, 6, 26, 0.55);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(247, 247, 247, 0.25);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--white);
+}
+.speaker-card:hover .teaser-scene__figure { transform: translateX(-50%) scale(1.04); }
+.teaser-scene__figure { transition: transform 0.6s var(--ease-out-expo); }
+
+/* Round table photo sits like any other speaker image */
+.speaker-card__image--special { padding: 0; }
+.speaker-card__image--special img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
 .speaker-card__pending-mark,
 .speaker-card__teaser-mark {
   font-family: var(--font-heading);

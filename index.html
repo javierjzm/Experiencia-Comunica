@@ -53,7 +53,7 @@
       <a href="#speakers" class="nav__link">Ponentes</a>
       <a href="#agenda" class="nav__link">Agenda</a>
       <a href="#takeaways" class="nav__link">Qué te llevas</a>
-      <button type="button" class="nav__cta" data-open-modal>Reserva tu plaza</button>
+      <a href="https://forms.gle/mFZRFPoQdaAjr9Ae6" class="nav__cta" target="_blank" rel="noopener">Reserva tu plaza</a>
     </div>
     <button class="nav__burger" id="navBurger" aria-label="Abrir menú">
       <span></span><span></span><span></span>
@@ -66,7 +66,7 @@
     <a href="#speakers" class="mobile-menu__link">Ponentes</a>
     <a href="#agenda" class="mobile-menu__link">Agenda</a>
     <a href="#takeaways" class="mobile-menu__link">Qué te llevas</a>
-    <button type="button" class="mobile-menu__cta" data-open-modal>Reserva tu plaza</button>
+    <a href="https://forms.gle/mFZRFPoQdaAjr9Ae6" class="mobile-menu__cta" target="_blank" rel="noopener">Reserva tu plaza</a>
   </div>
 
   <!-- ============ HERO ============ -->
@@ -84,10 +84,10 @@
       <p class="hero__subtitle" id="heroSubtitle"></p>
       <p class="hero__description">Desarrolla tu creatividad y mejora tu comunicación</p>
       <div class="hero__actions">
-        <button type="button" class="btn btn--primary" data-open-modal>
+        <a href="https://forms.gle/mFZRFPoQdaAjr9Ae6" class="btn btn--primary" target="_blank" rel="noopener">
           Reserva tu plaza gratis
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+        </a>
         <a href="#about" class="btn btn--ghost">
           Descubrir más
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -216,10 +216,6 @@
         <canvas id="aboutCanvas"></canvas>
       </div>
       <div class="about__feelings-cards">
-        <div class="feeling-card reveal-text">
-          <span class="feeling-card__emoji">😤</span>
-          <p>"No sé qué decir en redes"</p>
-        </div>
         <div class="feeling-card feeling-card--right reveal-text">
           <span class="feeling-card__emoji">😶</span>
           <p>"Me cuesta explicar lo que hago"</p>
@@ -230,7 +226,7 @@
         </div>
         <div class="feeling-card feeling-card--right reveal-text">
           <span class="feeling-card__emoji">🫣</span>
-          <p>"Me da vergüenza mostrarme"</p>
+          <p>"Me da vergüenza hablar en público"</p>
         </div>
         <div class="feeling-card reveal-text">
           <span class="feeling-card__emoji">😔</span>
@@ -376,12 +372,7 @@
       <!-- Mesa redonda -->
       <article class="speaker-card speaker-card--special" data-tilt>
         <div class="speaker-card__image speaker-card__image--special">
-          <svg viewBox="0 0 64 64" fill="none" width="56" height="56" aria-hidden="true">
-            <circle cx="20" cy="22" r="7" stroke="currentColor" stroke-width="2.5"/>
-            <circle cx="44" cy="22" r="7" stroke="currentColor" stroke-width="2.5"/>
-            <circle cx="32" cy="43" r="7" stroke="currentColor" stroke-width="2.5"/>
-            <path d="M26 26l12 0M24 30l6 8M40 30l-6 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
+          <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&h=450&fit=crop" alt="Mesa redonda de ponentes debatiendo ante el público" loading="lazy">
           <div class="speaker-card__number">04</div>
         </div>
         <div class="speaker-card__content">
@@ -396,7 +387,19 @@
       <!-- Invitado sorpresa -->
       <article class="speaker-card speaker-card--teaser" data-tilt>
         <div class="speaker-card__image speaker-card__image--teaser">
-          <span class="speaker-card__teaser-mark">★</span>
+          <div class="teaser-scene" aria-hidden="true">
+            <span class="teaser-scene__tile"></span><span class="teaser-scene__tile"></span>
+            <span class="teaser-scene__tile"></span><span class="teaser-scene__tile"></span>
+            <span class="teaser-scene__tile"></span><span class="teaser-scene__tile"></span>
+            <span class="teaser-scene__tile"></span><span class="teaser-scene__tile"></span>
+            <span class="teaser-scene__tile"></span><span class="teaser-scene__tile"></span>
+            <span class="teaser-scene__tile"></span><span class="teaser-scene__tile"></span>
+            <svg class="teaser-scene__figure" viewBox="0 0 100 120" fill="none" aria-hidden="true">
+              <circle cx="50" cy="30" r="19" fill="currentColor"/>
+              <path d="M50 53c-19 0-31 13-34 31-1.5 9-2 22-2 36h72c0-14-.5-27-2-36-3-18-15-31-34-31z" fill="currentColor"/>
+            </svg>
+          </div>
+          <span class="speaker-card__teaser-badge">?</span>
           <div class="speaker-card__number">05</div>
         </div>
         <div class="speaker-card__content">
@@ -569,10 +572,10 @@
         <p class="takeaways__final-text">
           Aforo limitado a <strong class="text-gradient">60 plazas</strong>. 4 horas intensivas de aprendizaje real.
         </p>
-        <button type="button" class="btn btn--primary btn--large" data-open-modal>
+        <a href="https://forms.gle/mFZRFPoQdaAjr9Ae6" class="btn btn--primary btn--large" target="_blank" rel="noopener">
           Reservar mi plaza gratuita
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+        </a>
       </div>
     </div>
   </section>
@@ -675,7 +678,7 @@
           <h4 class="footer__col-title">Contacto</h4>
           <a href="mailto:experienciacomunicamurcia@gmail.com" class="footer__link">experienciacomunicamurcia@gmail.com</a>
           <a href="https://wa.me/message/6Y4DCLXIBPKCP1" class="footer__link" target="_blank" rel="noopener">WhatsApp</a>
-          <button type="button" class="footer__link footer__link--btn" data-open-modal>Reserva tu plaza</button>
+          <a href="https://forms.gle/mFZRFPoQdaAjr9Ae6" class="footer__link" target="_blank" rel="noopener">Reserva tu plaza</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__col-title">Redes</h4>
@@ -688,34 +691,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- ============ MODAL: aviso de inscripciones ============ -->
-  <div class="modal" id="signupModal" role="dialog" aria-modal="true" aria-labelledby="signupModalTitle" hidden>
-    <div class="modal__backdrop" data-close-modal></div>
-    <div class="modal__dialog" role="document">
-      <button type="button" class="modal__close" data-close-modal aria-label="Cerrar">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
-
-      <span class="modal__badge">Aforo limitado a 60 personas</span>
-      <h3 class="modal__title" id="signupModalTitle">Reserva tu plaza gratuita</h3>
-      <p class="modal__text">
-        Reserva tu plaza rellenando el formulario. Te escribiremos con todos los detalles del evento.
-      </p>
-
-      <a href="https://forms.gle/mFZRFPoQdaAjr9Ae6" class="btn btn--primary modal__cta" target="_blank" rel="noopener">
-        Reservar mi plaza
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-
-      <p class="modal__hint">Y para no perderte nada: síguenos en Instagram y <strong>activa las notificaciones</strong>.</p>
-
-      <a href="https://www.instagram.com/experiencia.comunica/" class="btn btn--ghost modal__instagram" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.8" cy="6.2" r="1.3" fill="currentColor"/></svg>
-        Síguenos en Instagram
-      </a>
-    </div>
-  </div>
 
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
