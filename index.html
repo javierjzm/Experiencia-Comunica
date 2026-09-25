@@ -11,7 +11,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Experiencia Comunica">
   <meta name="twitter:description" content="¿Hablas o comunicas? Una experiencia para aprender haciendo.">
-  <link rel="icon" type="image/svg+xml" href="assets/images/isotipo.svg">
+  <link rel="icon" type="image/png" href="assets/images/isotipo.png">
   <link rel="apple-touch-icon" href="assets/images/isotipo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,23 +30,8 @@
   <!-- Navigation -->
   <nav class="nav" id="nav">
     <a href="#hero" class="nav__logo">
-      <span class="nav__logo-icon">
-        <!-- Isotipo oficial. Si assets/images/isotipo.svg no existe, se muestra el SVG de reserva -->
-        <img src="assets/images/isotipo.svg" alt="" width="28" height="28" class="nav__logo-isotipo"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="display:none">
-          <rect width="36" height="36" rx="8" fill="url(#logoGrad)"/>
-          <path d="M18 8C12.48 8 8 11.58 8 16c0 2.5 1.5 4.7 3.8 6.2L10.5 27l5.2-2.6c.75.15 1.5.2 2.3.2 5.52 0 10-3.58 10-8s-4.48-8-10-8z" fill="white"/>
-          <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36"><stop stop-color="#2E5BFF"/><stop offset="1" stop-color="#743AF6"/></linearGradient></defs>
-        </svg>
-      </span>
       <!-- Logo primario horizontal (versión blanca sobre fondo oscuro) -->
-      <img src="assets/images/logo-primario-blanco.png" alt="Experiencia Comunica" class="nav__logo-primary"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <span class="nav__logo-text">
-        <small>EXPERIENCIA</small>
-        Comunica
-      </span>
+      <img src="assets/images/logo-primario-blanco.png" alt="Experiencia Comunica" class="nav__logo-primary">
     </a>
     <div class="nav__links">
       <a href="#about" class="nav__link">El evento</a>
@@ -318,8 +303,7 @@
       <!-- Speaker 1: Viviana Varón -->
       <article class="speaker-card" data-tilt>
         <div class="speaker-card__image">
-          <img src="assets/images/viviana-varon.jpg" alt="Viviana Varón — Coach y Terapeuta" loading="lazy"
-               onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&amp;h=450&amp;fit=crop&amp;crop=face';">
+          <img src="assets/images/viviana-varon.jpg" alt="Viviana Varón — Coach y Terapeuta" loading="lazy">
           <div class="speaker-card__number">01</div>
         </div>
         <div class="speaker-card__content">
@@ -338,8 +322,7 @@
       <!-- Speaker 2: Jenny Cárdenas Forero -->
       <article class="speaker-card" data-tilt>
         <div class="speaker-card__image">
-          <img src="assets/images/jenny-cardenas.jpg" alt="Jenny Cárdenas Forero — Coach y Empresaria en Inversiones y Seguros" loading="lazy"
-               onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&amp;h=450&amp;fit=crop&amp;crop=face';">
+          <img src="assets/images/jenny-cardenas.jpg" alt="Jenny Cárdenas Forero — Coach y Empresaria en Inversiones y Seguros" loading="lazy">
           <div class="speaker-card__number">02</div>
         </div>
         <div class="speaker-card__content">
@@ -372,8 +355,7 @@
       <!-- Mesa redonda -->
       <article class="speaker-card speaker-card--special" data-tilt>
         <div class="speaker-card__image speaker-card__image--special">
-          <img src="assets/images/mesa-redonda.jpg" alt="Mesa redonda de ponentes debatiendo ante el público" loading="lazy"
-               onerror="this.src='https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&amp;h=450&amp;fit=crop';">
+          <img src="assets/images/mesa-redonda.jpg" alt="Mesa redonda de ponentes debatiendo ante el público" loading="lazy">
           <div class="speaker-card__number">04</div>
         </div>
         <div class="speaker-card__content">
@@ -382,10 +364,22 @@
           <p class="speaker-card__talk">"Comunicación en el Mundo Real"</p>
           <p class="speaker-card__bio">Espacio interactivo de debate donde profesionales de distintos sectores responderán en directo a las preguntas del público asistente.</p>
           <ul class="panel-list">
-            <li><strong>MJ Poyatos</strong><span>Mentora en comunicación, coach ejecutiva, presentadora y conferencista</span></li>
-            <li><strong>Juanjo Díaz López</strong><span>CEO de Crealogic. Experto en marketing digital</span></li>
-            <li><strong>Viviana Varón</strong><span>Coach y Terapeuta</span></li>
-            <li><strong>Jenny Cárdenas</strong><span>Coach y Empresaria en Inversiones y Seguros</span></li>
+            <li>
+              <img src="assets/images/mj-poyatos.jpg" alt="" class="panel-list__photo" loading="lazy">
+              <span class="panel-list__text"><strong>MJ Poyatos</strong><span>Mentora en comunicación, coach ejecutiva, presentadora y conferencista</span></span>
+            </li>
+            <li>
+              <span class="panel-list__photo panel-list__photo--empty" aria-hidden="true"></span>
+              <span class="panel-list__text"><strong>Juanjo Díaz López</strong><span>CEO de Crealogic. Experto en marketing digital</span></span>
+            </li>
+            <li>
+              <img src="assets/images/viviana-varon.jpg" alt="" class="panel-list__photo" loading="lazy">
+              <span class="panel-list__text"><strong>Viviana Varón</strong><span>Coach y Terapeuta</span></span>
+            </li>
+            <li>
+              <img src="assets/images/jenny-cardenas.jpg" alt="" class="panel-list__photo" loading="lazy">
+              <span class="panel-list__text"><strong>Jenny Cárdenas</strong><span>Coach y Empresaria en Inversiones y Seguros</span></span>
+            </li>
           </ul>
         </div>
       </article>
@@ -424,7 +418,7 @@
 
   <!-- ============ IMAGE BREAK ============ -->
   <div class="image-break" data-parallax="0.08">
-    <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1600&h=500&fit=crop&crop=center" alt="Vista panorámica de un evento con personas participando activamente" loading="lazy">
+    <img src="assets/images/evento-ambiente.jpg" alt="Vista panorámica de un evento de Experiencia Comunica con asistentes haciendo networking" loading="lazy">
     <div class="image-break__overlay"></div>
     <div class="image-break__text">
       <p class="image-break__quote">"Lo que no practicas, no lo aprendes."</p>
