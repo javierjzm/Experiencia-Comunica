@@ -346,20 +346,17 @@
       }
     );
 
-    // --- Sponsor logos (skipped while the section is hidden) ---
-    var sponsorsSection = document.getElementById('sponsors');
-    if (sponsorsSection && !sponsorsSection.hidden) {
-      gsap.fromTo('.sponsor-logo',
-        { opacity: 0, y: 25 },
-        {
-          opacity: 0.5, y: 0,
-          duration: 0.7,
-          stagger: 0.08,
-          ease: 'expo.out',
-          scrollTrigger: { trigger: '.sponsors__logos', start: 'top 85%' }
-        }
-      );
-    }
+    // --- Sponsor logos ---
+    gsap.fromTo('.sponsor-logo',
+      { opacity: 0, y: 25 },
+      {
+        opacity: 0.9, y: 0,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: 'expo.out',
+        scrollTrigger: { trigger: '.sponsors__logos', start: 'top 85%' }
+      }
+    );
 
     // --- Marquee speed change on scroll ---
     gsap.to('.marquee__track', {

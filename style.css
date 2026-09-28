@@ -1300,69 +1300,40 @@ html.lenis, html.lenis body {
   gap: 1.5rem;
   flex-wrap: wrap;
 }
-.sponsor-logo {
-  transition: transform 0.4s var(--ease-out-expo), opacity 0.4s;
-  opacity: 0.5;
-  position: relative;
+.sponsors__logos--main {
+  gap: 3.5rem;
+  margin-bottom: 1rem;
 }
-.sponsor-logo:hover {
+.sponsors__logos--collab { gap: 2.5rem; }
+
+.sponsor-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s var(--ease-out-expo), opacity 0.4s;
+  opacity: 0.9;
+}
+a.sponsor-logo:hover {
   opacity: 1;
   transform: translateY(-4px);
 }
-.sponsor-logo__placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  width: 180px; height: 80px;
-  border: 1.5px dashed rgba(46, 91, 255, 0.2);
-  border-radius: 10px;
-  font-family: var(--font-heading);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  transition: border-color 0.3s, background 0.3s;
+.sponsor-logo img {
+  width: auto;
+  object-fit: contain;
 }
-.sponsor-logo__placeholder small {
-  font-size: 0.55rem;
-  opacity: 0.5;
-  max-width: 150px;
+/* Premium: the ones that should read as important */
+.sponsor-logo--premium img { max-height: 120px; max-width: 300px; }
+/* Collaborators sit a step down */
+.sponsor-logo--standard img { max-height: 70px; max-width: 190px; }
+/* A light pill for logos whose own artwork is too dark for our background */
+.sponsor-logo--light {
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  background: rgba(247, 247, 247, 0.94);
 }
-.sponsor-logo:hover .sponsor-logo__placeholder {
-  border-color: rgba(46, 91, 255, 0.4);
-  background: rgba(46, 91, 255, 0.04);
-}
-.sponsor-logo__placeholder--main {
-  width: 280px; height: 100px;
-  border-width: 2px;
-}
-.sponsor-logo__placeholder--small {
-  width: 150px; height: 65px;
-}
+.sponsor-logo--premium.sponsor-logo--light { padding: 1.1rem 1.8rem; }
+.sponsor-logo--premium.sponsor-logo--light img { max-height: 110px; }
 
-/* Tooltip */
-.sponsor-logo::after {
-  content: attr(data-desc);
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  padding: 0.5rem 0.9rem;
-  background: var(--deep-navy);
-  border: 1px solid rgba(46, 91, 255, 0.2);
-  border-radius: 6px;
-  font-size: 0.68rem;
-  color: var(--white);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s, transform 0.3s var(--ease-out-expo);
-}
-.sponsor-logo:hover::after {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
 .sponsors__cta {
   margin-top: 3rem;
   padding-top: 2.5rem;
