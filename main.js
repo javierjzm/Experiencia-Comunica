@@ -78,7 +78,7 @@
       requestAnimationFrame(loop);
     })();
 
-    document.querySelectorAll('a, button, .speaker-card, .sponsor-logo, .btn, .audience-card, .feeling-card, .feature-pill, .takeaway-card').forEach(function (el) {
+    document.querySelectorAll('a, button, .speaker-card, .ticker__logo, .btn, .audience-card, .feeling-card, .feature-pill, .takeaway-card').forEach(function (el) {
       el.addEventListener('mouseenter', function () { ring.classList.add('hover'); });
       el.addEventListener('mouseleave', function () { ring.classList.remove('hover'); });
     });
@@ -346,18 +346,6 @@
       }
     );
 
-    // --- Sponsor logos ---
-    gsap.fromTo('.sponsor-logo',
-      { opacity: 0, y: 25 },
-      {
-        opacity: 0.9, y: 0,
-        duration: 0.7,
-        stagger: 0.08,
-        ease: 'expo.out',
-        scrollTrigger: { trigger: '.sponsors__logos', start: 'top 85%' }
-      }
-    );
-
     // --- Marquee speed change on scroll ---
     gsap.to('.marquee__track', {
       x: -200,
@@ -403,7 +391,7 @@
     });
 
     // --- Section titles scale on approach ---
-    document.querySelectorAll('.about__title, .speakers__title, .agenda__title, .takeaways__title, .sponsors__title').forEach(function (title) {
+    document.querySelectorAll('.about__title, .speakers__title, .agenda__title, .takeaways__title').forEach(function (title) {
       if (title.closest('[hidden]')) return;
       gsap.fromTo(title,
         { scale: 0.92, opacity: 0 },
