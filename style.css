@@ -1429,6 +1429,8 @@ html.lenis, html.lenis body {
   opacity: 0.5;
 }
 .footer__link--small { font-size: 0.72rem; }
+.footer__dev { transition: color 0.3s; }
+.footer__dev:hover { color: var(--white); }
 
 /* ============================================================
    NAV LOGO (isotipo + logo primario)
