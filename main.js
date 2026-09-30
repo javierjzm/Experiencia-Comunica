@@ -78,7 +78,7 @@
       requestAnimationFrame(loop);
     })();
 
-    document.querySelectorAll('a, button, .speaker-card, .ticker__logo, .btn, .audience-card, .feeling-card, .feature-pill, .takeaway-card').forEach(function (el) {
+    document.querySelectorAll('a, button, .speaker-card, .sponsor-tile, .btn, .audience-card, .feeling-card, .feature-pill, .takeaway-card').forEach(function (el) {
       el.addEventListener('mouseenter', function () { ring.classList.add('hover'); });
       el.addEventListener('mouseleave', function () { ring.classList.remove('hover'); });
     });

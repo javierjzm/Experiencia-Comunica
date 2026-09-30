@@ -1265,18 +1265,23 @@ html.lenis, html.lenis body {
    SPONSORS
    ============================================================ */
 /* ============================================================
-   SPONSOR TICKER (scrolling logo strip under the hero)
+   SPONSORS (static blocks: premium under the hero, standard mid-page)
    ============================================================ */
-.ticker {
+.sponsors-top,
+.sponsors-mid {
   position: relative;
   z-index: 2;
-  padding: 2.2rem 0 2.4rem;
+  padding: 2.6rem 1.5rem 2.8rem;
   background: var(--bg-alt);
   border-top: 1px solid rgba(46, 91, 255, 0.08);
   border-bottom: 1px solid rgba(46, 91, 255, 0.08);
-  overflow: hidden;
 }
-.ticker__label {
+.sponsors-mid {
+  background: var(--bg);
+  padding: 3.5rem 1.5rem;
+}
+.sponsors-top__label,
+.sponsors-mid__label {
   text-align: center;
   font-family: var(--font-heading);
   font-size: 0.68rem;
@@ -1284,65 +1289,61 @@ html.lenis, html.lenis body {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.8rem;
 }
-.ticker__viewport {
-  position: relative;
-  overflow: hidden;
-  /* Fade the logos out at both edges instead of cutting them off */
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
-}
-.ticker__track {
+.sponsors-top__grid,
+.sponsors-mid__grid {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 4.5rem;
-  width: max-content;
-  animation: tickerScroll 34s linear infinite;
+  justify-content: center;
+  gap: 2rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
 }
-.ticker:hover .ticker__track { animation-play-state: paused; }
+.sponsors-mid__grid { gap: 1.8rem 2.6rem; }
 
-.ticker__logo {
+/* Fixed-height boxes keep wildly different logo shapes visually balanced */
+.sponsor-tile {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  opacity: 0.85;
+  height: 118px;
+  width: 200px;
+  opacity: 0.92;
   transition: opacity 0.35s, transform 0.35s var(--ease-out-expo);
 }
-a.ticker__logo:hover { opacity: 1; transform: scale(1.05); }
-.ticker__logo img {
+.sponsor-tile:hover { opacity: 1; transform: translateY(-3px); }
+.sponsor-tile img {
+  max-height: 100%;
+  max-width: 100%;
   width: auto;
+  height: auto;
   object-fit: contain;
 }
-.ticker__logo--premium img { max-height: 74px; max-width: 220px; }
-.ticker__logo--standard img { max-height: 48px; max-width: 160px; }
+.sponsor-tile--sm { height: 80px; width: 160px; }
 /* A light pill for logos whose own artwork is too dark for our background */
-.ticker__logo--light {
-  padding: 0.7rem 1.1rem;
+.sponsor-tile--light {
+  padding: 0.7rem 1rem;
   border-radius: 14px;
   background: rgba(247, 247, 247, 0.94);
 }
-.ticker__logo--premium.ticker__logo--light img { max-height: 64px; }
-.ticker__logo--standard.ticker__logo--light img { max-height: 44px; }
 
-@keyframes tickerScroll {
-  from { transform: translateX(0); }
-  /* One full group plus the gap that follows it */
-  to   { transform: translateX(calc(-50% - 2.25rem)); }
+/* Speaker cards with more than one social link */
+.speaker-card__meta--multi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .ticker__track {
-    animation: none;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2.5rem;
-    width: 100%;
-  }
-  /* With no motion one static set is enough */
-  .ticker__logo:nth-child(n+5) { display: none; }
+.speaker-card__social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: color 0.3s;
 }
+.speaker-card__social:hover { color: var(--white); }
+.speaker-card__social svg { flex-shrink: 0; color: var(--blue); }
+.speaker-card__social:hover svg { color: var(--purple); }
 
 /* ============================================================
    FOOTER
@@ -1954,14 +1955,12 @@ a.speaker-card__meta:hover svg { color: var(--purple); }
   .about__features { gap: 0.6rem; }
   .feature-pill { font-size: 0.7rem; padding: 0.5rem 1rem; }
 
-  .ticker { padding: 1.8rem 0 2rem; }
-  .ticker__track { gap: 3rem; }
-  .ticker__logo--premium img { max-height: 56px; max-width: 165px; }
-  .ticker__logo--standard img { max-height: 38px; max-width: 125px; }
-  @keyframes tickerScroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(calc(-50% - 1.5rem)); }
   }
+
+  .sponsors-top, .sponsors-mid { padding: 2rem 1rem 2.2rem; }
+  .sponsors-top__grid, .sponsors-mid__grid { gap: 1.4rem 1.8rem; }
+  .sponsor-tile { height: 86px; width: 140px; }
+  .sponsor-tile--sm { height: 62px; width: 115px; }
 
   .speakers { padding: 5rem 1.5rem 4rem; }
   .agenda { padding: 5rem 1.5rem 5rem; }
