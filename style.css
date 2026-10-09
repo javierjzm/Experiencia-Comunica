@@ -1329,6 +1329,33 @@ html.lenis, html.lenis body {
   background: rgba(247, 247, 247, 0.94);
 }
 
+/* Allies: the quietest tier, sitting just above the footer */
+.allies {
+  padding: 3rem 1.5rem 3.2rem;
+  background: var(--bg);
+  border-top: 1px solid rgba(46, 91, 255, 0.08);
+}
+.allies__label {
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.8;
+  margin-bottom: 1.6rem;
+}
+.allies__grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem 2.6rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 /* Speaker cards with more than one social link */
 .speaker-card__meta--multi {
   display: flex;
