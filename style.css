@@ -1302,8 +1302,8 @@ html.lenis, html.lenis body {
   margin: 0 auto;
 }
 .sponsors-mid__grid { gap: 1.8rem 2.6rem; }
-/* Nine premium logos: rows of five and four on wide screens */
-.sponsors-top__grid { max-width: 1240px; }
+/* Eight premium logos: two even rows of four on wide screens */
+.sponsors-top__grid { max-width: 980px; }
 
 
 /* Fixed-height boxes keep wildly different logo shapes visually balanced */
