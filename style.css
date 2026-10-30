@@ -1489,6 +1489,12 @@ html.lenis, html.lenis body {
 /* ============================================================
    SPEAKER CARD VARIANTS (pending / mesa redonda / teaser)
    ============================================================ */
+.speaker-card__image--pending { position: relative; }
+.speaker-card__image--pending img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
 .speaker-card__image--pending {
   display: flex;
   align-items: center;
