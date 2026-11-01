@@ -57,7 +57,8 @@ export class QaRoom extends DurableObject {
   }
 
   isOpen() {
-    return this.getMeta('open', '0') === '1';
+    // Open by default: the QR code is the only way in, so there is nothing to unlock.
+    return this.getMeta('open', '1') === '1';
   }
 
   featuredId() {
@@ -198,7 +199,9 @@ export class QaRoom extends DurableObject {
 
   async validKey(given) {
     const expected = this.env.PRESENTER_KEY;
-    if (!expected || !given) return false;
+    // No PRESENTER_KEY secret configured: the control page is open to whoever has its link.
+    if (!expected) return true;
+    if (!given) return false;
     const enc = new TextEncoder();
     const a = enc.encode(given);
     const b = enc.encode(expected);
