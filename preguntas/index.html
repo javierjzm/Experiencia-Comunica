@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#06061a">
+  <title>Haz tu pregunta — Experiencia Comunica</title>
+  <link rel="icon" type="image/png" href="/assets/images/isotipo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/qa/qa.css">
+</head>
+<body>
+  <main class="ask">
+    <img class="ask__logo" src="/assets/images/logo-primario-blanco.png" alt="Experiencia Comunica">
+
+    <!-- Loading -->
+    <section class="ask__state" id="viewLoading">
+      <p>Conectando…</p>
+    </section>
+
+    <!-- Closed -->
+    <section class="ask__state" id="viewClosed" hidden>
+      <div class="ask__icon ask__icon--wait ask__pulse">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#a9baff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      </div>
+      <h2>Aún no está abierto</h2>
+      <p>Las preguntas se abrirán al final de la ponencia. Deja esta página abierta: se activará sola.</p>
+    </section>
+
+    <!-- Form -->
+    <section id="viewForm" hidden>
+      <p class="ask__eyebrow">Preguntas en directo</p>
+      <h1 class="ask__title">¿Qué te gustaría preguntar?</h1>
+      <p class="ask__lead">Tu pregunta aparecerá en la pantalla de la sala al momento.</p>
+
+      <form class="ask__form" id="askForm" novalidate>
+        <div>
+          <label class="ask__label" for="askName">Tu nombre <span>opcional</span></label>
+          <input class="ask__input" id="askName" name="name" maxlength="40" autocomplete="given-name" placeholder="Si lo dejas vacío, saldrá como Anónimo">
+        </div>
+        <div>
+          <label class="ask__label" for="askText">Tu pregunta</label>
+          <textarea class="ask__textarea" id="askText" name="text" maxlength="280" required placeholder="Escribe aquí tu pregunta…"></textarea>
+          <div class="ask__count" id="askCount">0 / 280</div>
+        </div>
+        <p class="ask__error" id="askError" hidden></p>
+        <button class="qa-btn" type="submit" id="askSend">Enviar pregunta</button>
+      </form>
+    </section>
+
+    <!-- Sent -->
+    <section class="ask__state" id="viewSent" hidden>
+      <div class="ask__icon" id="sentIcon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      </div>
+      <h2>¡Pregunta enviada!</h2>
+      <p>Mira la pantalla: ya está en directo.</p>
+      <button class="qa-btn qa-btn--ghost" type="button" id="askAgain">Enviar otra pregunta</button>
+    </section>
+
+    <p class="ask__foot">Experiencia Comunica · 14 de noviembre 2026 · FREMM, Murcia</p>
+  </main>
+
+  <script src="/qa/qa-common.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var views = {
+      loading: document.getElementById('viewLoading'),
+      closed: document.getElementById('viewClosed'),
+      form: document.getElementById('viewForm'),
+      sent: document.getElementById('viewSent')
+    };
+    var form = document.getElementById('askForm');
+    var nameEl = document.getElementById('askName');
+    var textEl = document.getElementById('askText');
+    var countEl = document.getElementById('askCount');
+    var errorEl = document.getElementById('askError');
+    var sendBtn = document.getElementById('askSend');
+    var current = 'loading';
+    var pollTimer = null;
+
+    function show(name) {
+      current = name;
+      Object.keys(views).forEach(function (k) { views[k].hidden = k !== name; });
+    }
+
+    function setError(msg) {
+      errorEl.textContent = msg || '';
+      errorEl.hidden = !msg;
+    }
+
+    // While closed, check every few seconds so the form appears on its own when the presenter opens it.
+    function poll() {
+      clearTimeout(pollTimer);
+      fetch('/api/qa/state', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (s) {
+          if (s.open && (current === 'closed' || current === 'loading')) show('form');
+          if (!s.open && current !== 'closed') show('closed');
+        })
+        .catch(function () {
+          if (current === 'loading') show('closed');
+        })
+        .then(function () {
+          pollTimer = setTimeout(poll, current === 'closed' ? 5000 : 15000);
+        });
+    }
+
+    nameEl.value = QA.store('qa-name') || '';
+
+    textEl.addEventListener('input', function () {
+      var n = textEl.value.length;
+      countEl.textContent = n + ' / 280';
+      countEl.classList.toggle('is-near', n > 250);
+      setError('');
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var text = textEl.value.trim();
+      if (text.length < 3) {
+        setError('Escribe tu pregunta antes de enviarla.');
+        textEl.focus();
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Enviando…';
+      QA.store('qa-name', nameEl.value.trim() || null);
+
+      fetch('/api/qa/questions', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ name: nameEl.value, text: text, clientId: QA.clientId() })
+      })
+        .then(function (r) { return r.json().then(function (body) { return { status: r.status, body: body }; }); })
+        .then(function (res) {
+          if (res.status === 200 || res.status === 201) {
+            textEl.value = '';
+            countEl.textContent = '0 / 280';
+            show('sent');
+            var icon = document.getElementById('sentIcon');
+            icon.animate(
+              [{ transform: 'scale(0.4)', opacity: 0 }, { transform: 'scale(1.12)', opacity: 1 }, { transform: 'scale(1)' }],
+              { duration: 550, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
+            );
+          } else if (res.status === 403) {
+            show('closed');
+          } else if (res.status === 429) {
+            setError('Espera ' + (res.body.retryIn || 15) + ' segundos antes de enviar otra pregunta.');
+          } else {
+            setError('Revisa tu pregunta: debe tener entre 3 y 280 caracteres.');
+          }
+        })
+        .catch(function () {
+          setError('No hay conexión. Comprueba tu internet y vuelve a intentarlo.');
+        })
+        .then(function () {
+          sendBtn.disabled = false;
+          sendBtn.textContent = 'Enviar pregunta';
+        });
+    });
+
+    document.getElementById('askAgain').addEventListener('click', function () {
+      show('form');
+      textEl.focus();
+    });
+
+    poll();
+  })();
+  </script>
+</body>
+</html>

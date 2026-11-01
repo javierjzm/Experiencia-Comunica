@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#06061a">
+  <title>Control de preguntas — Experiencia Comunica</title>
+  <link rel="icon" type="image/png" href="/assets/images/isotipo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/qa/qa.css">
+</head>
+<body>
+  <!-- Key prompt -->
+  <form class="ct-login" id="login" hidden>
+    <h1>Control de preguntas</h1>
+    <label class="ask__label" for="keyInput">Clave del presentador</label>
+    <input class="ask__input" id="keyInput" type="password" autocomplete="current-password" required>
+    <p class="ask__error" id="loginError" hidden>Clave incorrecta.</p>
+    <button class="qa-btn" type="submit">Entrar</button>
+  </form>
+
+  <main class="ct" id="panel" hidden>
+    <div class="ct-top">
+      <h1>Preguntas en directo</h1>
+      <span class="ct-status"><span class="sc-dot" id="dot"></span><span id="statusText">Conectando…</span></span>
+    </div>
+
+    <button class="ct-toggle is-closed" id="toggle" type="button">Abrir preguntas</button>
+    <p class="ct-sub" id="toggleSub">El público aún no puede enviar preguntas.</p>
+
+    <div class="ct-links">
+      <a href="/pantalla/" target="_blank" rel="noopener">Abrir pantalla ↗</a>
+      <a href="/preguntas/" target="_blank" rel="noopener">Ver como público ↗</a>
+    </div>
+
+    <div class="ct-head">
+      <h2><span id="count">0</span> preguntas</h2>
+      <button type="button" id="clear">Vaciar todo</button>
+    </div>
+    <ol class="ct-list" id="list"></ol>
+  </main>
+
+  <script src="/qa/qa-common.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var login = document.getElementById('login');
+    var panel = document.getElementById('panel');
+    var keyInput = document.getElementById('keyInput');
+    var loginError = document.getElementById('loginError');
+    var toggle = document.getElementById('toggle');
+    var toggleSub = document.getElementById('toggleSub');
+    var list = document.getElementById('list');
+    var countEl = document.getElementById('count');
+    var dot = document.getElementById('dot');
+    var statusText = document.getElementById('statusText');
+
+    var state = { open: false, featured: null, questions: [] };
+    var conn = null;
+    var key = '';
+
+    // A key in the link (?key=...) is saved and removed from the address bar.
+    var params = new URLSearchParams(location.search);
+    if (params.get('key')) {
+      QA.store('qa-presenter-key', params.get('key'));
+      history.replaceState(null, '', location.pathname);
+    }
+
+    function checkKey(candidate) {
+      return fetch('/api/qa/auth', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ key: candidate })
+      }).then(function (r) { return r.ok; });
+    }
+
+    function start(candidate) {
+      checkKey(candidate).then(function (ok) {
+        if (!ok) {
+          QA.store('qa-presenter-key', null);
+          login.hidden = false;
+          panel.hidden = true;
+          loginError.hidden = !candidate;
+          keyInput.focus();
+          return;
+        }
+        key = candidate;
+        QA.store('qa-presenter-key', key);
+        login.hidden = true;
+        panel.hidden = false;
+        if (!conn) connect();
+      }).catch(function () {
+        loginError.textContent = 'Sin conexión. Inténtalo de nuevo.';
+        loginError.hidden = false;
+        login.hidden = false;
+      });
+    }
+
+    function connect() {
+      conn = QA.connect({
+        onOpen: function (c) { c.send({ type: 'auth', key: key }); },
+        onStatus: function (live) {
+          dot.classList.toggle('is-live', live);
+          statusText.textContent = live ? 'En directo' : 'Reconectando…';
+        },
+        onMessage: function (m) {
+          switch (m.type) {
+            case 'snapshot':
+              if (!m.authed) return;          // the pre-auth screen snapshot; wait for ours
+              state.open = m.open;
+              state.featured = m.featured;
+              state.questions = m.questions;
+              break;
+            case 'unauthorized':
+              QA.store('qa-presenter-key', null);
+              location.reload();
+              return;
+            case 'question':
+              if (!find(m.question.id)) state.questions.push(m.question);
+              break;
+            case 'hidden':
+            case 'unhidden':
+              var q = find(m.id);
+              if (q) q.hidden = m.type === 'hidden';
+              break;
+            case 'featured':
+              state.featured = m.id;
+              break;
+            case 'open':
+              state.open = m.open;
+              break;
+            case 'cleared':
+              state.questions = [];
+              state.featured = null;
+              break;
+          }
+          render();
+        }
+      });
+    }
+
+    function find(id) {
+      for (var i = 0; i < state.questions.length; i++) if (state.questions[i].id === id) return state.questions[i];
+      return null;
+    }
+
+    function act(action, id) {
+      if (!conn || !conn.send({ action: action, id: id })) {
+        alert('Sin conexión con el servidor. Espera a que vuelva a "En directo".');
+      }
+    }
+
+    function button(label, onClick, on) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = label;
+      if (on) b.className = 'is-on';
+      b.addEventListener('click', onClick);
+      return b;
+    }
+
+    function render() {
+      toggle.textContent = state.open ? 'Cerrar preguntas' : 'Abrir preguntas';
+      toggle.className = 'ct-toggle ' + (state.open ? 'is-open' : 'is-closed');
+      toggleSub.textContent = state.open
+        ? 'Abierto: el público puede enviar preguntas.'
+        : 'Cerrado: el público aún no puede enviar preguntas.';
+
+      var visible = state.questions.filter(function (q) { return !q.hidden; }).length;
+      countEl.textContent = visible;
+
+      list.innerHTML = '';
+      if (!state.questions.length) {
+        var empty = document.createElement('li');
+        empty.className = 'ct-empty';
+        empty.textContent = state.open ? 'Esperando la primera pregunta…' : 'Todavía no hay preguntas.';
+        list.appendChild(empty);
+        return;
+      }
+
+      state.questions.slice().reverse().forEach(function (q) {
+        var featured = state.featured === q.id;
+        var li = document.createElement('li');
+        li.className = 'ct-item' + (featured ? ' is-featured' : '') + (q.hidden ? ' is-hidden' : '');
+
+        var text = document.createElement('p');
+        text.className = 'ct-item__text';
+        text.textContent = q.text;
+        var meta = document.createElement('p');
+        meta.className = 'ct-item__meta';
+        meta.textContent = q.name + ' · ' + QA.timeAgo(q.created_at) + (q.hidden ? ' · oculta' : '');
+
+        var actions = document.createElement('div');
+        actions.className = 'ct-item__actions';
+        if (!q.hidden) {
+          actions.appendChild(button(featured ? '★ Quitar destacada' : '☆ Destacar', function () { act('feature', q.id); }, featured));
+        }
+        actions.appendChild(button(q.hidden ? 'Mostrar' : 'Ocultar', function () { act(q.hidden ? 'unhide' : 'hide', q.id); }));
+
+        li.appendChild(text);
+        li.appendChild(meta);
+        li.appendChild(actions);
+        list.appendChild(li);
+      });
+    }
+
+    toggle.addEventListener('click', function () { act(state.open ? 'close' : 'open'); });
+
+    document.getElementById('clear').addEventListener('click', function () {
+      if (confirm('¿Borrar todas las preguntas? Desaparecerán también de la pantalla.')) act('clear');
+    });
+
+    login.addEventListener('submit', function (e) {
+      e.preventDefault();
+      loginError.textContent = 'Clave incorrecta.';
+      start(keyInput.value);
+    });
+
+    setInterval(render, 30000);   // keeps the "hace X min" labels fresh
+    start(QA.store('qa-presenter-key') || '');
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Pantalla de preguntas — Experiencia Comunica</title>
+  <link rel="icon" type="image/png" href="/assets/images/isotipo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/qa/qa.css">
+</head>
+<body class="screen">
+  <div class="sc-bg" aria-hidden="true">
+    <span class="sc-blob sc-blob--1"></span>
+    <span class="sc-blob sc-blob--2"></span>
+    <span class="sc-blob sc-blob--3"></span>
+  </div>
+  <div class="sc-grain" aria-hidden="true"></div>
+
+  <div class="sc">
+    <header class="sc-top">
+      <img class="sc-top__logo" src="/assets/images/logo-primario-blanco.png" alt="Experiencia Comunica">
+      <div class="sc-top__title">Preguntas del público</div>
+      <div class="sc-top__meta">
+        <span><b id="count">0</b> preguntas</span>
+        <span class="sc-dot" id="dot" title="Conexión"></span>
+      </div>
+    </header>
+
+    <main class="sc-main">
+      <section class="sc-stage" id="stage" aria-live="polite"></section>
+
+      <aside class="sc-side">
+        <div class="sc-side__head">Anteriores</div>
+        <ol class="sc-list" id="list"></ol>
+        <div class="sc-qr" id="qrBox">
+          <div class="sc-qr__code" id="qrSmall"></div>
+          <div class="sc-qr__text" id="qrText">Escanea y pregunta<small class="js-url"></small></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Before the Q&A opens -->
+  <div class="sc-wait" id="wait" hidden>
+    <div>
+      <img class="sc-wait__logo" src="/assets/images/logo-primario-blanco.png" alt="Experiencia Comunica">
+      <div class="sc-wait__qr" id="qrBig"></div>
+      <h1>¿Tienes una pregunta?</h1>
+      <p>Escanea el código · <b class="js-url"></b> · se abre al final de la ponencia</p>
+    </div>
+  </div>
+
+  <div class="sc-hint" id="hint">Pulsa F para pantalla completa</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="/qa/qa-common.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var askUrl = location.origin + '/preguntas/';
+    var stage = document.getElementById('stage');
+    var list = document.getElementById('list');
+    var countEl = document.getElementById('count');
+    var dot = document.getElementById('dot');
+    var wait = document.getElementById('wait');
+    var qrBox = document.getElementById('qrBox');
+    var qrText = document.getElementById('qrText');
+    var hasGsap = typeof gsap !== 'undefined';
+
+    var state = { open: false, featured: null, questions: [] };
+    var shownId = null;           // id currently on the big card (null = empty state)
+    var shownKey = '';            // last rendered big-card state, see render()
+
+    // ---------- QR ----------
+    document.querySelectorAll('.js-url').forEach(function (el) {
+      el.textContent = askUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    });
+    function makeQr(id, size) {
+      var el = document.getElementById(id);
+      if (typeof QRCode === 'undefined') {
+        el.textContent = askUrl;
+        return;
+      }
+      new QRCode(el, {
+        text: askUrl, width: size, height: size,
+        colorDark: '#06061a', colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+    makeQr('qrSmall', 360);
+    makeQr('qrBig', 720);
+
+    // ---------- helpers ----------
+    function el(tag, cls, text) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text !== undefined) n.textContent = text;
+      return n;
+    }
+    function byId(id) {
+      for (var i = 0; i < state.questions.length; i++) if (state.questions[i].id === id) return state.questions[i];
+      return null;
+    }
+    function sizeClass(text) {
+      var n = text.length;
+      return n <= 110 ? 'xl' : n <= 190 ? 'l' : 'm';
+    }
+
+    // ---------- big card ----------
+    function buildCard(q, featured) {
+      var card = el('article', 'sc-card');
+      var quote = el('div', 'sc-card__quote');
+      quote.innerHTML = '<svg viewBox="0 0 64 48" aria-hidden="true"><path d="M0 48V28C0 12 8 2 26 0l2 7C18 10 14 16 14 24h12v24H0zm36 0V28C36 12 44 2 62 0l2 7c-10 3-14 9-14 17h12v24H36z"/></svg>';
+      card.appendChild(quote);
+      var label = el('span', 'sc-card__label' + (featured ? ' sc-card__label--featured' : ''),
+        featured ? '★ Destacada' : 'Nueva pregunta');
+      card.appendChild(label);
+      card.appendChild(el('p', 'sc-card__text sc-card__text--' + sizeClass(q.text), q.text));
+      var who = el('div', 'sc-card__who');
+      who.appendChild(el('div', 'sc-avatar', QA.initial(q.name)));
+      var meta = el('div');
+      meta.appendChild(el('div', 'sc-card__name', q.name));
+      meta.appendChild(el('div', 'sc-card__time', 'Pregunta nº ' + (state.questions.indexOf(q) + 1)));
+      who.appendChild(meta);
+      card.appendChild(who);
+      card.appendChild(el('span', 'sc-card__shine'));
+      return card;
+    }
+
+    function buildEmpty() {
+      var box = el('div', 'sc-empty');
+      box.appendChild(el('h2', null, state.open ? 'Envía tu pregunta' : 'Preguntas cerradas'));
+      box.appendChild(el('p', null, state.open
+        ? 'Escanea el código con la cámara del móvil y aparecerá aquí al momento.'
+        : 'Gracias por participar.'));
+      if (state.open) box.appendChild(el('span', 'sc-arrow', '↘'));
+      return box;
+    }
+
+    function showOnStage(id, animate) {
+      var q = id !== null ? byId(id) : null;
+      var next = q ? buildCard(q, state.featured === id) : buildEmpty();
+      var prev = stage.firstElementChild;
+
+      if (!hasGsap || !animate) {
+        stage.innerHTML = '';
+        stage.appendChild(next);
+        return;
+      }
+
+      next.style.position = 'relative';
+      if (prev) {
+        prev.style.position = 'absolute';
+        prev.style.inset = '0';
+        prev.style.margin = 'auto';
+        prev.style.height = 'fit-content';
+        gsap.to(prev, {
+          x: '35%', y: '-10%', scale: 0.55, opacity: 0, filter: 'blur(6px)',
+          duration: 0.7, ease: 'power3.in',
+          onComplete: function () { prev.remove(); }
+        });
+      }
+      stage.appendChild(next);
+
+      var tl = gsap.timeline();
+      tl.fromTo(next,
+        { opacity: 0, scale: 0.86, y: 60, filter: 'blur(14px)' },
+        { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)', duration: 1.1, ease: 'expo.out', delay: prev ? 0.25 : 0 });
+      var label = next.querySelector('.sc-card__label');
+      var text = next.querySelector('.sc-card__text');
+      var who = next.querySelector('.sc-card__who');
+      var shine = next.querySelector('.sc-card__shine');
+      if (label) tl.from(label, { opacity: 0, y: 14, duration: 0.5, ease: 'power2.out' }, '-=0.75');
+      if (text) tl.from(text, { opacity: 0, y: 26, duration: 0.8, ease: 'expo.out' }, '-=0.45');
+      if (who) tl.from(who, { opacity: 0, x: -20, duration: 0.6, ease: 'power2.out' }, '-=0.5');
+      if (shine) tl.to(shine, { x: '120%', duration: 1.2, ease: 'power2.inOut' }, '-=0.6');
+    }
+
+    // ---------- side list ----------
+    function renderList(animate) {
+      var ids = state.questions
+        .filter(function (q) { return q.id !== shownId; })
+        .map(function (q) { return q.id; })
+        .reverse()
+        .slice(0, 12);
+
+      var existing = {};
+      Array.prototype.forEach.call(list.children, function (li) { existing[li.dataset.id] = li; });
+
+      var fresh = [];
+      ids.forEach(function (id, i) {
+        var li = existing[id];
+        if (!li) {
+          var q = byId(id);
+          li = el('li', 'sc-item');
+          li.dataset.id = id;
+          li.appendChild(el('p', 'sc-item__text', q.text));
+          li.appendChild(el('p', 'sc-item__name', q.name));
+          fresh.push(li);
+        }
+        if (list.children[i] !== li) list.insertBefore(li, list.children[i] || null);
+        delete existing[id];
+      });
+      Object.keys(existing).forEach(function (k) { existing[k].remove(); });
+
+      if (hasGsap && animate && fresh.length) {
+        gsap.from(fresh, { opacity: 0, x: 60, duration: 0.8, ease: 'expo.out', delay: 0.35, stagger: 0.06 });
+      }
+    }
+
+    // ---------- full render ----------
+    function render(animate) {
+      var visible = state.questions.length;
+      countEl.textContent = visible;
+
+      var waiting = !state.open && visible === 0;
+      wait.hidden = !waiting;
+      qrBox.classList.toggle('is-closed', !state.open);
+      qrText.firstChild.textContent = state.open ? 'Escanea y pregunta' : 'Preguntas cerradas';
+
+      var target = state.featured !== null && byId(state.featured)
+        ? state.featured
+        : (visible ? state.questions[visible - 1].id : null);
+
+      // What the big card shows: which question, whether it carries the "Destacada" label, and
+      // (only when there is no question) the open/closed wording. Re-animate only when that changes.
+      var key = target === null
+        ? 'empty:' + state.open
+        : target + ':' + (state.featured === target);
+
+      if (key !== shownKey) {
+        shownKey = key;
+        shownId = target;
+        showOnStage(target, animate);
+      }
+      renderList(animate);
+    }
+
+    // ---------- live connection ----------
+    QA.connect({
+      onStatus: function (live) { dot.classList.toggle('is-live', live); },
+      onMessage: function (m) {
+        switch (m.type) {
+          case 'snapshot':
+            state.open = m.open;
+            state.featured = m.featured;
+            state.questions = m.questions;
+            render(false);
+            break;
+          case 'question':
+            if (!byId(m.question.id)) state.questions.push(m.question);
+            render(true);
+            break;
+          case 'hidden':
+            state.questions = state.questions.filter(function (q) { return q.id !== m.id; });
+            render(true);
+            break;
+          case 'unhidden':
+            if (!byId(m.id)) {
+              state.questions.push(m.question);
+              state.questions.sort(function (a, b) { return a.id - b.id; });
+            }
+            render(false);
+            break;
+          case 'featured':
+            state.featured = m.id;
+            render(true);
+            break;
+          case 'open':
+            state.open = m.open;
+            render(true);
+            break;
+          case 'cleared':
+            state.questions = [];
+            state.featured = null;
+            render(true);
+            break;
+        }
+      }
+    });
+
+    // ---------- keyboard ----------
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'f' || e.key === 'F') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen().catch(function () {});
+      }
+    });
+    setTimeout(function () { document.getElementById('hint').style.opacity = '0'; }, 6000);
+  })();
+  </script>
+</body>
+</html>

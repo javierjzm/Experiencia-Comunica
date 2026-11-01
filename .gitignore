@@ -1,2 +1,5 @@
 brag-output/
 .shots/
+.wrangler/
+node_modules/
+.dev.vars

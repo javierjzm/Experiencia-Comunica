@@ -5,3 +5,9 @@ brag-output
 .wrangler
 .gitignore
 .assetsignore
+worker
+wrangler.jsonc
+node_modules
+.dev.vars
+package.json
+package-lock.json
