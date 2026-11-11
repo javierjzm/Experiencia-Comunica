@@ -192,7 +192,7 @@
         text.textContent = q.text;
         var meta = document.createElement('p');
         meta.className = 'ct-item__meta';
-        meta.textContent = q.name + ' · ' + QA.timeAgo(q.created_at) + (q.hidden ? ' · oculta' : '');
+        meta.textContent = q.name + (q.target ? ' → ' + q.target : '') + ' · ' + QA.timeAgo(q.created_at) + (q.hidden ? ' · oculta' : '');
 
         var actions = document.createElement('div');
         actions.className = 'ct-item__actions';

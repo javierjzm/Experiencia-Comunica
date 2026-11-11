@@ -3,6 +3,8 @@ import { DurableObject } from 'cloudflare:workers';
 const MIN_TEXT = 3;
 const MAX_TEXT = 280;
 const MAX_NAME = 40;
+// Who a question can be addressed to: the round-table panel. Anything else means "everyone".
+const TARGETS = ['MJ Poyato', 'Juanjo Díaz', 'Viviana Varón', 'Jenny Cárdenas'];
 // One question per device every 15 s. The venue wifi puts everyone behind a single IP,
 // so the per-IP limit is only a generous ceiling against a script flooding the screen.
 const DEVICE_COOLDOWN_MS = 15_000;
@@ -36,6 +38,9 @@ export class QaRoom extends DurableObject {
       hidden INTEGER NOT NULL DEFAULT 0
     )`);
     this.sql.exec('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT NOT NULL)');
+    // Added after launch: rooms created earlier need the column added in place.
+    const cols = this.sql.exec('PRAGMA table_info(questions)').toArray().map((c) => c.name);
+    if (!cols.includes('target')) this.sql.exec('ALTER TABLE questions ADD COLUMN target TEXT');
     // Rate-limit bookkeeping lives in memory; losing it on eviction only relaxes the limits briefly.
     this.lastByDevice = new Map();
     this.hitsByIp = new Map();
@@ -69,7 +74,7 @@ export class QaRoom extends DurableObject {
   listQuestions(includeHidden) {
     const rows = this.sql
       .exec(
-        `SELECT id, name, text, created_at, hidden FROM questions
+        `SELECT id, name, text, target, created_at, hidden FROM questions
          ${includeHidden ? '' : 'WHERE hidden = 0'} ORDER BY id ASC`,
       )
       .toArray();
@@ -78,7 +83,7 @@ export class QaRoom extends DurableObject {
 
   getQuestion(id) {
     const rows = this.sql
-      .exec('SELECT id, name, text, created_at, hidden FROM questions WHERE id = ?', id)
+      .exec('SELECT id, name, text, target, created_at, hidden FROM questions WHERE id = ?', id)
       .toArray();
     return rows.length ? { ...rows[0], hidden: !!rows[0].hidden } : null;
   }
@@ -145,6 +150,7 @@ export class QaRoom extends DurableObject {
 
     const text = clean(body.text, MAX_TEXT + 1);
     const name = clean(body.name, MAX_NAME).replace(/\n/g, ' ') || 'Anónimo';
+    const target = TARGETS.includes(body.to) ? body.to : null;
     const device = clean(body.clientId, 64);
     if (text.length < MIN_TEXT || text.length > MAX_TEXT || !device) {
       return json({ error: 'invalid' }, 400);
@@ -177,9 +183,9 @@ export class QaRoom extends DurableObject {
     if (dup.length) return json({ ok: true, duplicate: true }, 200);
 
     const row = this.sql
-      .exec('INSERT INTO questions (name, text, created_at) VALUES (?, ?, ?) RETURNING id', name, text, now)
+      .exec('INSERT INTO questions (name, text, target, created_at) VALUES (?, ?, ?, ?) RETURNING id', name, text, target, now)
       .one();
-    const question = { id: row.id, name, text, created_at: now, hidden: false };
+    const question = { id: row.id, name, text, target, created_at: now, hidden: false };
     this.broadcast({ type: 'question', question });
     return json({ ok: true, id: row.id }, 201);
   }

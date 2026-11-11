@@ -120,6 +120,11 @@
       var label = el('span', 'sc-card__label' + (featured ? ' sc-card__label--featured' : ''),
         featured ? '★ Destacada' : 'Nueva pregunta');
       card.appendChild(label);
+      if (q.target) {
+        var to = el('span', 'sc-card__to', 'Para ');
+        to.appendChild(el('b', null, q.target));
+        card.appendChild(to);
+      }
       card.appendChild(el('p', 'sc-card__text sc-card__text--' + sizeClass(q.text), q.text));
       var who = el('div', 'sc-card__who');
       who.appendChild(el('div', 'sc-avatar', QA.initial(q.name)));
@@ -200,7 +205,12 @@
           li = el('li', 'sc-item');
           li.dataset.id = id;
           li.appendChild(el('p', 'sc-item__text', q.text));
-          li.appendChild(el('p', 'sc-item__name', q.name));
+          var nm = el('p', 'sc-item__name', q.name);
+          if (q.target) {
+            nm.appendChild(document.createTextNode(' → '));
+            nm.appendChild(el('span', 'sc-item__to', q.target));
+          }
+          li.appendChild(nm);
           fresh.push(li);
         }
         if (list.children[i] !== li) list.insertBefore(li, list.children[i] || null);

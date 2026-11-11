@@ -114,6 +114,74 @@ a { color: inherit; }
 }
 .ask__count { font-size: 0.78rem; color: var(--muted); text-align: right; margin-top: 0.35rem; }
 .ask__count.is-near { color: #fbbf24; }
+.ask__to { border: none; }
+.ask__whos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 0.6rem;
+}
+.ask__who {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.8rem 0.4rem 0.7rem;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(13, 13, 43, 0.85);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.ask__who:active { transform: scale(0.97); }
+.ask__who input { position: absolute; opacity: 0; pointer-events: none; }
+.ask__who img, .ask__who-all {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.ask__who-all {
+  display: grid;
+  place-items: center;
+  background: var(--gradient);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+.ask__who:has(input:checked) {
+  border-color: rgba(116, 58, 246, 0.8);
+  background: rgba(116, 58, 246, 0.16);
+}
+.ask__who:has(input:checked) img { border-color: #a78bfa; }
+.ask__who:has(input:focus-visible) { outline: 2px solid #8ea6ff; outline-offset: 2px; }
+
+/* "Para MJ Poyato" tag on the projector */
+.sc-card__to {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-left: 0.8em;
+  font-family: var(--font-heading);
+  font-size: 0.95em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.55em 1.1em;
+  border-radius: 100px;
+  background: rgba(116, 58, 246, 0.2);
+  color: #d8ccff;
+  vertical-align: top;
+}
+.sc-card__to b { color: #fff; font-weight: 800; }
+.sc-item__to { color: #c4b5fd; font-weight: 700; }
+
 .ask__error {
   font-size: 0.88rem;
   color: var(--bad);

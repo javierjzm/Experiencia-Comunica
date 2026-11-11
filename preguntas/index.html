@@ -41,6 +41,36 @@
           <label class="ask__label" for="askName">Tu nombre <span>opcional</span></label>
           <input class="ask__input" id="askName" name="name" maxlength="40" autocomplete="given-name" placeholder="Si lo dejas vacío, saldrá como Anónimo">
         </div>
+        <fieldset class="ask__to">
+          <legend class="ask__label">¿Para quién es?</legend>
+          <div class="ask__whos">
+            <label class="ask__who ask__who--all">
+              <input type="radio" name="to" value="" checked>
+              <span class="ask__who-all">Todos</span>
+              <span>A todos</span>
+            </label>
+            <label class="ask__who">
+              <input type="radio" name="to" value="MJ Poyato">
+              <img src="/assets/images/mj-poyatos.jpg" alt="">
+              <span>MJ Poyato</span>
+            </label>
+            <label class="ask__who">
+              <input type="radio" name="to" value="Juanjo Díaz">
+              <img src="/assets/images/juanjo-diaz.jpg" alt="">
+              <span>Juanjo Díaz</span>
+            </label>
+            <label class="ask__who">
+              <input type="radio" name="to" value="Viviana Varón">
+              <img src="/assets/images/viviana-varon.jpg" alt="">
+              <span>Viviana Varón</span>
+            </label>
+            <label class="ask__who">
+              <input type="radio" name="to" value="Jenny Cárdenas">
+              <img src="/assets/images/jenny-cardenas.jpg" alt="">
+              <span>Jenny Cárdenas</span>
+            </label>
+          </div>
+        </fieldset>
         <div>
           <label class="ask__label" for="askText">Tu pregunta</label>
           <textarea class="ask__textarea" id="askText" name="text" maxlength="280" required placeholder="Escribe aquí tu pregunta…"></textarea>
@@ -136,7 +166,7 @@
       fetch('/api/qa/questions', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ name: nameEl.value, text: text, clientId: QA.clientId() })
+        body: JSON.stringify({ name: nameEl.value, text: text, to: (form.querySelector('input[name="to"]:checked') || {}).value || '', clientId: QA.clientId() })
       })
         .then(function (r) { return r.json().then(function (body) { return { status: r.status, body: body }; }); })
         .then(function (res) {
